@@ -100,7 +100,7 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: cactus
 theme_config:
-  colorscheme: paper
+  colorscheme: paperdark
 
 
 # Deployment
