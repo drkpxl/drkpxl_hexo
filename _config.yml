@@ -102,7 +102,7 @@ ignore:
 theme: cactus
 theme_config:
   colorscheme: paperdark
-
+all_minifier: true
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
