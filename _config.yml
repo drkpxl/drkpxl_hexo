@@ -5,7 +5,7 @@
 # Site
 title: DrkPxl Labs
 subtitle: ''
-description: 'A website highlighting projects, musings, and life.'
+description: 'A place for me to share my code, 3D printed designs and various projects and products I work on. '
 keywords: ['3d-printing', 'node-js','design', 'code', 'cycling', 'colorado','blog',
 'colorado']
 author: Steven DrkPxl
@@ -17,7 +17,7 @@ watch: false
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://drkpxllabs.netlify.app
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :year/:month/:title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
