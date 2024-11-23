@@ -11,7 +11,7 @@ keywords: ['3d-printing', 'node-js','design', 'code', 'cycling', 'colorado','blo
 author: Steven DrkPxl
 language: en
 timezone: 'MST'
-watch: true
+watch: false
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
