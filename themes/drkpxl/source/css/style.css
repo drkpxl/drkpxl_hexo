@@ -1,0 +1,457 @@
+/*
+  Name: Bearming
+  Version: 1.2.7
+  About: birming.com/bearming
+*/
+
+/* Import fonts from fonts.google.com */
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+/* Fonts */
+:root {
+  --font-main: "Atkinson Hyperlegible", sans-serif;
+  --font-secondary: "Inter", sans-serif;
+}
+
+/* Colors: Light mode */
+:root {
+    --background-color: #F8F1E5; /* Lighter cream */
+    --accent-color: #96572D; /* Darker café au lait */
+    --text-color: #1F1408; /* Darker espresso */
+    --link-color: #7C4011; /* Darker caramel */
+    --code-background: #FCFAF3; /* Light Taupe */
+  }
+  
+  /* Colors: Dark mode */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background-color: #1b262c; /* Deep, dark slate, like the mountains at dusk */
+      --accent-color: #4d6a75; /* Lighter, accessible blue-gray for dark mode */
+      --text-color: #e8ecef; /* Light stone gray, maintaining readability against dark backgrounds */
+      --link-color: #4a90e2; /* Bright sky blue to stand out in dark mode */
+      --code-background: #212121; /* Dark Dark Gray */
+    }
+  }
+
+
+
+/* Global resets */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Basic styles */
+body {
+  margin: 10px auto;
+  padding: 20px;
+  max-width: 720px;
+  font-family: var(--font-main);
+  font-size: 1.15em;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-secondary);
+}
+main h1 {
+  font-size: 2em;
+  line-height: 1.2;
+}
+.title h1 {
+  display: inline-block;
+  margin: 0 0 5px;
+  font-size: 1.9em;
+  font-weight: 900;
+}
+
+/* Links */
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+main a {
+  text-decoration: underline;
+}
+a.title,
+.title:hover {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Form elements */
+input, button, textarea, select {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font: inherit;
+}
+legend {
+  margin: 20px 0;
+  font-weight: bold;
+}
+label {
+  display: block;
+  font-weight: bold;
+}
+input,
+textarea {
+  margin: 0 0 10px;
+  padding: 5px 10px;
+  color: var(--text-color);
+  background: var(--accent-color);
+  border: 2px solid var(--link-color);
+  border-radius: 5px;
+}
+input {
+  width: 55%;
+}
+textarea {
+  width: 95%;
+}
+input[type=button], input[type=submit], input[type=reset] {
+  margin: 0 0 20px;
+  padding: 7px;
+  font-family: var(--font-secondary);
+  font-weight: bold;
+  color: var(--background-color);
+  background: var(--link-color);
+  border-radius: 5px;
+  cursor: pointer;
+}
+::placeholder {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Misc elements */
+i time {
+  font-family: var(--font-secondary);
+  font-style: normal;
+  font-size: .8em;
+  opacity: 0.8;
+}
+
+ul.blog-posts li span {
+    flex: 0 0 130px;
+}
+li {
+  padding-bottom: 8px;
+}
+
+p time {
+  display: block;
+  margin: -20px 0 25px;
+}
+table {
+    width: 100%;
+}
+hr {
+  border: 0;
+  border: 1px dashed var(--accent-color);
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  margin: 0 0 25px;
+}
+blockquote {
+  margin: 25px 0;
+  padding: 2px 25px;
+  font-style: italic;
+  background: var(--accent-color);
+  border-radius: 10px;
+}
+
+/* Navigation */
+nav {
+  margin: 0 0 30px;
+  font-family: var(--font-secondary);
+}
+nav p {
+  display: inline;
+  line-height: 45px;
+}
+nav a {
+  margin-right: 6px;
+  padding: 6ppx;
+  font-size: 1rem;
+  color: var(--link-color);
+}
+nav a:hover {
+  background: var(--accent-color);
+  color: var(--background-color)
+}
+
+/* Footer */
+footer {
+  padding: 25px 0;
+  font-family: var(--font-secondary);
+  text-align: center;
+  font-size: .8em;
+}
+footer a {
+  text-decoration: none;
+}
+footer strong {
+  font-size: 1.1em;
+}
+.home footer hr,
+.blog footer hr {
+  display: none;
+}
+
+
+
+/* Misc styles */
+.inline {
+  width: auto !important;
+}
+
+.highlight {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  padding: 1px 15px;
+  overflow-x: auto;
+  /* background-color: var( --code-background); */
+  border-radius: 3px;
+}
+.tags a {
+  display: inline-block;
+  margin: 15px 5px 0 0;
+  padding: 4px 9px;
+  font-size: .8em;
+  text-decoration: none;
+}
+.footnote,
+.footnote-ref a {
+  text-decoration: none;
+}
+
+/* blog post list */
+ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+}
+
+ul.blog-posts li {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+i time {
+    font-style: normal;
+    opacity: 0.7;
+}
+
+ul.blog-posts li span {
+    flex: 0 0 130px;
+}
+
+
+ul.blog-posts li a:visited {
+    color: var(--visited-color);
+}
+
+table {
+    border-spacing: 0;
+}
+
+th,
+td {
+    padding: 6px 13px;
+    font-size: 1em;
+}
+
+/* external link marker */
+a[href^="http"]:where(:not([href*="drkpxl.com/"])):not(:has(img))::after {
+    content: "⤴"
+}
+
+/* ADD-ONS */
+
+img {
+    display: block; /* Ensures images are block-level elements */
+    margin: 20px auto; /* Centers the image with some margin */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for scaling and shadow */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Creates a subtle shadow effect to lift the image */
+    border-radius: 8px; /* Rounds the corners slightly */
+}
+
+img:hover {
+    transform: scale(1.05); /* Slightly grows the image on hover */
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2); /* Increases the shadow effect on hover */
+}
+
+/* Upvote button */
+.upvote-button svg {
+    display: none; 
+  }
+  .upvote-button {
+    font-family: var(--font-secondary);
+  }
+  .upvote-count { 
+    font-size: .8em;
+  }
+  .upvote-button:hover {
+    cursor: pointer;
+  }
+  .upvote-button::before {
+    content: "☆";
+    color: var(--text-color);
+    font-size: 1.5em;
+  }
+  .upvote-button[disabled] {
+    cursor: default;
+  }
+  .upvote-button[disabled]::before {
+    content: "★";
+    color: var(--text-color);
+    font-size: 1.5em;
+  }
+  .upvote-button.upvoted {
+    color: var(--text-color) !important;
+  }
+
+/* Styles for tables */
+table {
+    text-align: left;
+    font-family: var(--font-secondary);
+    color: var(--background-color);
+    background-color: var(--link-color);
+  }
+  thead th,
+  tfoot th,
+  tfoot td {
+    padding: 3px 0 3px 7px;
+  }
+  td {
+    padding: 7px 0 7px 8px;
+    font-size: 1.1em;
+    font-family: monospace;
+    color: var(--text-color);
+  }
+  tbody tr:nth-child(odd) {
+    background-color: var(--accent-color);
+  }
+  tbody tr:nth-child(even) {
+    background-color: var(--primary);
+  }
+
+/* Title with avatar */
+.title h1 {
+    display: flex;
+    margin: 0 0 5px;
+    align-items: center;
+  }
+  .title h1::before {
+    margin: 0 15px 3px 0;
+    content: "";
+    background: url("https://bear-images.sfo2.cdn.digitaloceanspaces.com/drkpxl/avatar.webp") no-repeat;
+    background-size: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+  }
+
+/* Gallery */
+.gallery ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 images per row */
+  grid-gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery li {
+  position: relative;
+  aspect-ratio: 3 / 2; 
+  overflow: hidden; /* Ensures no overflow from images */
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container while maintaining its aspect ratio */
+}
+
+/* Specific styles for the Hacks page */
+.page ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+}
+
+.page ul.blog-posts li {
+    display: block; /* Changes from flex to block for full width */
+    margin-bottom: 20px;
+}
+
+/* Hide the date span on the Hacks page */
+.page ul.blog-posts li span {
+    display: none;
+}
+
+/* Make title full width and adjust styling */
+.page ul.blog-posts li a {
+    display: block;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+/* Style the description */
+.page ul.blog-posts li p {
+    width: 100%;
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* Print styles */
+@media print {
+body {
+  background: #fff;
+  color: #000;
+  font-family: Georgia, serif;
+}
+nav {
+  display: none;
+}
+h1, h2, h3 {
+  line-height: 1.3;
+  font-family: Helvetica, sans-serif;
+}
+a,
+main a {
+  color: #000;
+  text-decoration: none;
+}
+blockquote,
+ {
+  background: #fff;
+  margin: 0;
+  padding: 0 1.5em;
+  border: none;
+}
+nav,
+footer,
+.tags,
+.upvote-button {
+  display: none !important;
+}
+
+}

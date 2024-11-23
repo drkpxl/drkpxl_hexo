@@ -1,0 +1,10 @@
+<ul class="blog-posts">
+    <% page.posts.each(function(post) { %>
+        <li>
+            <span><time><%= post.date.format('YYYY-MM-DD') %></time></span>
+            <a href="<%= post.path %>"><%= post.title %></a>
+        </li>
+    <% }) %>
+</ul>
+
+
