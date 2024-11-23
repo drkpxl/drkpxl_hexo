@@ -16,7 +16,7 @@ categories:
     - code
 ---
 
-# Frost: A Modern Theme for Obsidian Users
+
 
 I have always struggled with what is the "best" note taking app. I was using Apple notes for a while but I always got stuck with the fact it doesn't support Markdown so I turned to Obsidian. Overall it's been great for me but none of the themes felt exactly right to me so I decided to have a crack at making one myself. I used a bit of AI to help but I got to where I wanted to be and really have an Obsidian setup I like.
 
