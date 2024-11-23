@@ -1,7 +1,7 @@
 [build]
   base = "/"
   publish = "public"
-  command = "npm install && hexo generate --draft false"
+  command = "npm install && hexo generate"
 
 [build.environment]
   NODE_VERSION = "22.11"

@@ -1,7 +1,7 @@
 ---
 title: "Frost: A Modern Theme for Obsidian Users"
 description: ""
-date: 2024-11-23T02:23:43.072Z
+date: 2024-11-25T02:23:43.072Z
 preview: ""
 tags:
     - coding
