@@ -1,0 +1,9 @@
+node_modules/
+.github/
+.vscode/
+.frontmatter/
+themes/drkpxl/
+yarn.lock
+package-lock.json
+_config.landscape.yml
+db.json
