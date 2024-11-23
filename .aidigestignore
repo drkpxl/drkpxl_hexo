@@ -7,3 +7,14 @@ yarn.lock
 package-lock.json
 _config.landscape.yml
 db.json
+source/_posts/
+themes/cactus/languages/
+themes/cactus/source/css/_highlight/
+themes/cactus/source/lib/
+themes/cactus/LICENSE
+source/images/
+source/_drafts/
+themes/cactus/README.md
+source/this-week/
+themes/cactus/gulpfile.js
+themes/cactus/source/css/rtl.styl
