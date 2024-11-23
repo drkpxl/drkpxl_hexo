@@ -1,0 +1,18 @@
+{
+    "frontMatter.git.enabled": true,
+    "frontMatter.content.pageFolders": [
+        {
+            "title": "posts",
+            "path": "[[workspace]]/source/_posts"
+        },
+        {
+            "path": "[[workspace]]/themes/cactus"
+        },
+        {
+            "path": "[[workspace]]/source/about"
+        },
+        {
+            "path": "[[workspace]]/source/this-week"
+        }
+    ]
+}
