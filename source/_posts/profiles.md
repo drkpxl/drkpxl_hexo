@@ -39,5 +39,5 @@ This profile is more experimental in nature currently but should net you fast pe
 4. Then Import
 5. The new profile should now be available in your dropdown list.
 
-![Screen-Shot-2023-02-17-at-9](https://bear-images.sfo2.cdn.digitaloceanspaces.com/drkpxl/01-am-1024x808.png)
+![Screen-Shot-2023-02-17-at-9](/images/01-am-1024x808.png)
 

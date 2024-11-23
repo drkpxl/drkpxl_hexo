@@ -7,7 +7,7 @@ tags: [clutter free]
 description: "nan"
 ---
 
-![IMG_3548-scaled-e1723498190573](https://bear-images.sfo2.cdn.digitaloceanspaces.com/drkpxl/img_3548-scaled-e1723498190573.jpeg)
+![IMG_3548-scaled-e1723498190573](/images/img_3548-scaled-e1723498190573.jpeg)
 
 
 The internet is currently abuzz with talk about the Boox Palma, a sleek $300 e-reader that runs a very outdated version of Android. It’s praised for its ability to run Android apps, unlike the Kindle, which means you can read your favorite news sites, newsletters, and more. However, for me, the outdated Android version is a drawback, especially since I have a Pixel 7 just sitting unused in my nightstand. So, why not repurpose it into a dedicated reading device?
@@ -39,7 +39,7 @@ I’m currently using Before Launcher, which I like because it allows me to limi
 
 ### Download Reading Apps
 
-![IMG_3551-768x1024](https://bear-images.sfo2.cdn.digitaloceanspaces.com/drkpxl/img_3551-768x1024.jpeg)
+![IMG_3551-768x1024](/images/img_3551-768x1024.jpeg)
 
 Like launchers, there are countless apps for reading books and articles. Here’s what I started with:
 

@@ -293,7 +293,7 @@ void loop() {
 
 ## Wiring Diagram for my Particular ESP32 Board
 
-![ESP-WROOM-32 ESP32 ESP-32S](https://bear-images.sfo2.cdn.digitaloceanspaces.com/drkpxl/ac-1.webp)
+![ESP-WROOM-32 ESP32 ESP-32S](/images/ac-1.webp)
 
 
 ## Functioning Setup

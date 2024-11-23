@@ -21,7 +21,7 @@ If you want to buy it, this is where I got it from:
 
 I also have an STL for how I mount it to my Voron Zero’s Mini Stealthburner. It’s just press fit, so **super easy to install and remove** whenever you need to run Input Shaping. Cop that STL here:
 
-![ADXL Mount](https://bear-images.sfo2.cdn.digitaloceanspaces.com/drkpxl/adxl-mount.webp)
+![ADXL Mount](/images/adxl-mount.webp)
 
 
 [Mellowfly USB-C ADXL mount for Mini Stealthburner](https://www.printables.com/model/301643-mellowfly-usb-c-adxl-mount-for-mini-stealthburner) on Printables.com
