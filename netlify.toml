@@ -1,9 +1,10 @@
 [build]
+  base = "/"
   publish = "public"
-  command = "hexo generate"
+  command = "npm install && hexo generate"
 
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
+[build.environment]
+  NODE_VERSION = "22.11"
 
 [build.processing]
   skip_processing = false
