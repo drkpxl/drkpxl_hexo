@@ -17,19 +17,19 @@ This profile gives nearly double the "stock" profile speed and still produces st
 
 This profile has been tested at scale amongst the Reddit community and is a good starting profile if you are new to 3d Printing or just want to start with something battle tested.
 
-[DrkPxlV2.curaprofile](https://assets.drkpxl.com/uploads/DrkPxlV2.curaprofile.zip)
+[DrkPxlV2.curaprofile](/printer-profiles/DrkPxlV2.curaprofile.zip)
 
 ### 140 mm/s Good Quality Profile - Fast
 
 This profile is more experimental in nature currently but should net you fast performance with very little reduction in quality. The default infill here is "Lighting" which is great for making it print faster but will make a weaker print. Not an issue for a desktop model, but you may want to swap to Cubic or Gyroid if you want more structure.
 
-[DrkPxl_Experimental_3.2_Final.curaprofile](https://assets.drkpxl.com/uploads/DrkPxl_Experimental_3.2_Final.curaprofile.zip)
+[DrkPxl_Experimental_3.2_Final.curaprofile](/printer-profiles/DrkPxl_Experimental_3.2_Final.curaprofile.zip)
 
 ### 150 mm/s Vase Mode Excellent quality
 
 0.16 Vase Mode at a whopping 150 mm/s really great quality. Higher temp and lower fan so the extruder can lay down the PLA. Try it out and let me know your thoughts.
 
-[DrkPxlV3.2VaseMode.curaprofile](https://assets.drkpxl.com/uploads/DrkPxlV3.2VaseMode.curaprofile.zip)
+[DrkPxlV3.2VaseMode.curaprofile](/printer-profiles/DrkPxlV3.2VaseMode.curaprofile.zip)
 
 ### How to Import:
 

@@ -17,10 +17,10 @@ Caveat all these assume you are using Orca Slicer, and if you are not you really
 
 This profile has been testing using Bambu's Basic PETG, Overture PETG and Inland PETG and provides much better results than the default PETG profile. The big changes are adding some additional minimum layer time and upping the fan a bit. Try it out and let me know how it works for you!
 
-[UniveralPETG_DrkPxlDownload](https://assets.drkpxl.com/uploads/UniveralPETG_DrkPxl.zip)
+[UniveralPETG_DrkPxlDownload](/printer-profiles/UniveralPETG_DrkPxl.zip)
 
 ### Bambu PETG
 
 The default Bambu profile for their PETG filament is not so great, I tuned it up and got it working alot better for me. Your milage may vary but I think it's worth trying out.
 
-[BambuLabsPETGDownload](https://assets.drkpxl.com/uploads/Filament-presets.zip)
+[BambuLabsPETGDownload](printer-profiles/Filament-presets.zip)
