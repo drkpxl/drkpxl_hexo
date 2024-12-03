@@ -1,22 +1,22 @@
 [
     {
        "name":"Ikon Pass Opening Days",
-       "url":"https://hexo.io/",
-       "desc":"Scraping Ikon Pass websites for their opening days using Claude's AI to verify the date."
+       "url":"https://opening.drkpxl.com",
+       "desc":" Scraping Ikon Pass websites for their opening days using Claude's AI to verify the date."
     },
     {
        "name":"Why Did You Vote",
        "url":"https://www.whydidyouvotefortrump.com",
-       "desc":"Capturing the voice of the American voter, using Google's Perspective to help keep the discussion in line"
+       "desc":" Capturing the voice of the American voter, using Google's Perspective to help keep the discussion in line"
     },
     {
        "name":"Tiny Air",
        "url":"https://air.drkpxl.com",
-       "desc":"An incredibly lightweight way to view air quality in your area. No ads, just air quality."
+       "desc":" An incredibly lightweight way to view air quality in your area. No ads, just air quality."
     },
     {
        "name":"Random Name Selector",
        "url":"https://random.drkpxl.com",
-       "desc":"An easy way to select a random name from a list, once a name is selected it can't be selected again that session. A great way to run raffles or contest. Free and not account sign up."
+       "desc":" An easy way to select a random name from a list, once a name is selected it can't be selected again that session. A great way to run raffles or contest. Free and not account sign up."
     }
 ]
