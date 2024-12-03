@@ -56,12 +56,15 @@
                         {
                             name: "pages",
                             label: "Pages",
+                            label_singular: "Page",
                             folder: "source/pages",
                             create: true,
                             nested: {
-                                depth: 1,
+                                depth: 2,
                                 summary: "{{title}}"
                             },
+                            path: "{{slug}}/index",
+                            meta: { path: { widget: "string", label: "Path", index_file: "index" } },
                             fields: [
                                 { label: "Title", name: "title", widget: "string" },
                                 { label: "Date", name: "date", widget: "datetime" },

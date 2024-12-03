@@ -20,11 +20,11 @@ watch: false
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://drkpxllabs.netlify.app
 root: /
-permalink: :year/:month/:title/
+permalink: :title/
 permalink_defaults:
 pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
-  trailing_html: true # Set to false to remove trailing '.html' from permalinks
+  trailing_index: false
+  trailing_html: false
 
 # Directory
 source_dir: source
@@ -35,6 +35,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - "admin/*"
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -111,6 +112,7 @@ all_minifier: true
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
 
 ```
 
@@ -504,7 +506,157 @@ draft: true
 ]
 ```
 
-# source/about/index.md
+# source/admin/config/config.yml
+
+```yml
+backend:
+  name: github
+  repo: drkpxl/your-repo-name # Replace with your GitHub username/repo
+  branch: main
+
+media_folder: "source/images" # Where media files will be stored
+public_folder: "/images" # Where media files will be accessed in your posts
+
+collections:
+  - name: "posts"
+    label: "Posts"
+    folder: "source/_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Categories", name: "categories", widget: "list"}
+      - {label: "Preview Image", name: "preview", widget: "image", required: false}
+      - {label: "Draft", name: "draft", widget: "boolean", default: true}
+      - {label: "Body", name: "body", widget: "markdown"}
+```
+
+# source/admin/index.html
+
+```html
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DrkPxl Labs Content Manager</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+
+<body>
+    <script>
+        window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+        const init = () => {
+            CMS.init({
+                config: {
+                    load_config_file: false,
+                    backend: {
+                        name: 'git-gateway',
+                        branch: 'main'
+                    },
+                    media_folder: "source/images",
+                    public_folder: "/images",
+                    slug: {
+                        encoding: "ascii",
+                        clean_accents: true,
+                        sanitize_replacement: "-"
+                    },
+                    collections: [
+                        {
+                            name: "posts",
+                            label: "Blog Posts",
+                            folder: "source/_posts",
+                            create: true,
+                            slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+                            fields: [
+                                { label: "Title", name: "title", widget: "string" },
+                                { label: "Date", name: "date", widget: "datetime" },
+                                { label: "Description", name: "description", widget: "string" },
+                                { label: "Tags", name: "tags", widget: "list" },
+                                { label: "Categories", name: "categories", widget: "list" },
+                                {
+                                    label: "Preview Image",
+                                    name: "preview",
+                                    widget: "image",
+                                    required: false,
+                                    pattern: ['^[a-z0-9-]+\.(jpg|jpeg|png|gif|webp)$', "Filename must contain only lowercase letters, numbers, and hyphens"]
+                                },
+                                { label: "Draft", name: "draft", widget: "boolean", default: true },
+                                { label: "Body", name: "body", widget: "markdown" }
+                            ]
+                        },
+                        {
+                            name: "pages",
+                            label: "Pages",
+                            folder: "source/pages",
+                            create: true,
+                            nested: {
+                                depth: 1,
+                                summary: "{{title}}"
+                            },
+                            fields: [
+                                { label: "Title", name: "title", widget: "string" },
+                                { label: "Date", name: "date", widget: "datetime" },
+                                { label: "Description", name: "description", widget: "string", required: false },
+                                { label: "Body", name: "body", widget: "markdown" }
+                            ]
+                        },
+                        {
+                            name: "drafts",
+                            label: "Draft Posts",
+                            folder: "source/_drafts",
+                            create: true,
+                            fields: [
+                                { label: "Title", name: "title", widget: "string" },
+                                { label: "Tags", name: "tags", widget: "list" },
+                                { label: "Categories", name: "categories", widget: "list" },
+                                { label: "Description", name: "description", widget: "string" },
+                                { label: "Preview Image", name: "preview", widget: "image", required: false },
+                                { label: "Body", name: "body", widget: "markdown" }
+                            ]
+                        },
+                        {
+                            name: "projects",
+                            label: "Projects",
+                            files: [
+                                {
+                                    name: "project-list",
+                                    label: "Project List",
+                                    file: "source/_data/projects.json",
+                                    fields: [
+                                        {
+                                            label: "Projects",
+                                            name: "projects",
+                                            widget: "list",
+                                            fields: [
+                                                { label: "Name", name: "name", widget: "string" },
+                                                { label: "URL", name: "url", widget: "string" },
+                                                { label: "Description", name: "desc", widget: "text" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+        };
+        init();
+    </script>
+</body>
+
+</html>
+```
+
+# source/pages/about/index.md
 
 ```md
 ---
@@ -515,6 +667,51 @@ date: 2024-11-22 17:18:55
 # Hello, I'm Steven
 
 I'm a thinker, maker and overall curious dad. When I am not working my full time job I am busy being a dad, a cyclist, and a closet 3d printer and maker. DrkPxl.com is a place to document that work.
+```
+
+# source/pages/this-week/index.md
+
+```md
+---
+title: "This Week"
+slug: "this-week"
+date: "2024-09-27"
+lastmod: "2024-10-15"
+tags: ['life']
+description: "Whats going on in my life this week. I try to keep it updated"
+---
+
+# What's Happening in My Life this Week
+
+### Week of October 14, 2024
+
+* Create a Jeep 4xe tips and tricks blog?
+* Finally print a crystal dragon for my daughter
+* TV Sink - Make smart TVs dumb
+* Blow out the sprinkler lines
+* How to create a LLC, what is it vs S-Corp, etc
+* Research the best way to code with AI and have long context windows
+
+## Week of October 7th, 2024
+
+* Learning about Docker. I have tried in the past but keep giving up but finally get it as I use an old Raspberry Pi as a file server / code playground
+* Bought a Raspberry Pi 5 with the AI kit addon and camera. I have some ideas but won't tackle it for a while
+* Spent a good amount of time cleaning up my Home Assistant, and could spend a good amount of time continuing that but perhaps won't.
+* Hit my goal way of <165lbs!
+
+### Week of September 30th, 2024
+
+* Using AI to help me code in Express, Node and Tailwinds. So far both ChatGPT and Claude have been really helpful. Coding up a Mtn Bike trailhead weather site
+* Realizing I don't like TrainerDay's plans and likely will go back to Zwift
+
+
+### Week of September 23rd, 2024
+
+* [Ollama](tab:https://ollama.com/) and Local AI. Facebook put out a new 3B 3.2 model, I got it up and running on the MacMini with Ollam and WebUI. It's no where near as good as the 8B model or ChatGPT or Claude but its cool and important to have it running. Also have been learning a bunch about how these models work and how different training data effects things.
+* [Lex Fridman and Cenk Uyger](tab:https://podcasts.apple.com/us/podcast/lex-fridman-podcast/id1434243584?i=1000667556389) did a podcast together. It's long but amazingly refreshing to see how 2 different sides can find similarity in positions and I educated myself about corporatism and now see it existing in my day to day.
+* [LED Filament](tab:https://www.aliexpress.us/item/3256805891525953.html?spm=a2g0o.productlist.main.3.2138G44eG44e1L&algo_pvid=bae0c000-db28-4d97-a47c-0d532b685aa7&algo_exp_id=bae0c000-db28-4d97-a47c-0d532b685aa7-1&pdp_npi=4%40dis%21EUR%213.70%213.43%21%21%2128.44%2126.41%21%402103956b17270683372665954e30a8%2112000039376227593%21sea%21ES%211908945554%21X&curPageLogUid=rmy6vkojoezV&utparam-url=scene%3Asearch%7Cquery_from%3A&aff_fcid=109c195c42474624bc781196061e610e-1727450617399-06827-_Dmds62d&tt=CPS_NORMAL&aff_fsk=_Dmds62d&aff_platform=portals-tool&sk=_Dmds62d&aff_trace_key=109c195c42474624bc781196061e610e-1727450617399-06827-_Dmds62d&terminal_id=8c49a2899a6f4c9692c2783f739e0fb5&afSmartRedirect=y&gatewayAdapt=glo2usa4itemAdapt) is some really cool filament to do neo light time stuff with 3d prints. [YouTube](tab:https://www.youtube.com/watch?v=MpdHxHsWguU&pp=ygUMbGVkIGZpbGFtZW50)
+* [Perplexia](tab:https://github.com/nilsherzig/LLocalSearch), a local clone to Perplexity. Haven't installed it yet since I want to get Docker setup and running on an old PC and just haven't gotten around to it yet.
+
 ```
 
 # source/printer-profiles/DrkPxl_Experimental_3.2_Final.curaprofile.zip
@@ -571,8 +768,9 @@ direction: ltr
 # languages/*.yml
 nav:
   home: /
-  about: /about/
+  about: /pages/about/
   articles: /archives/
+  bluesky: /blue-sky/
   projects: http://github.com/drkpxl
 
 
@@ -937,6 +1135,7 @@ node_modules/
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <%- open_graph({
         image:          thumbnail(page),
         fb_app_id:      theme.open_graph.fb_app_id,
@@ -1571,7 +1770,7 @@ node_modules/
   <ul class="project-list">
     <% for(var obj in site.data.projects){ %>
       <li class="project-item">
- <a href="<%= site.data.projects[obj].url %>"><%= site.data.projects[obj].name %></a>: <%- markdown(site.data.projects[obj].desc) %>
+ <a href="<%= site.data.projects[obj].url %>"><%= site.data.projects[obj].name %></a>:  <%- markdown(site.data.projects[obj].desc) %>
       </li>
     <% } %>
   </ul>
