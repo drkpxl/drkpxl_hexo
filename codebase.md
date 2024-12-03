@@ -234,6 +234,12 @@ _multiconfig.yml
   skip_processing = false
 [build.processing.images]
   compress = true
+
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
 ```
 
 # package.json
@@ -253,6 +259,7 @@ _multiconfig.yml
     "version": "7.3.0"
   },
   "dependencies": {
+    "decap-cms-app": "^3.4.0",
     "hexo": "^7.3.0",
     "hexo-all-minifier": "^0.5.7",
     "hexo-generator-archive": "^2.0.0",
@@ -496,6 +503,48 @@ date: 2024-11-22 17:18:55
 # Hello, I'm Steven
 
 I'm a thinker, maker and overall curious dad. When I am not working my full time job I am busy being a dad, a cyclist, and a closet 3d printer and maker. DrkPxl.com is a place to document that work.
+```
+
+# source/admin/config.yml
+
+```yml
+backend:
+  name: git
+  repo: drkpxl/drkpxl_hexo # Replace with your GitHub repository
+  branch: main  # Replace with your GitHub branch
+
+media_folder: "source/images/uploads"  # Where images will be stored
+public_folder: "/images/uploads"
+
+collections:
+  - name: "posts"  # Name in the CMS
+    label: "Posts"
+    folder: "source/_posts"  # Location in your repository
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
+media_library:  # Optional: Customize media library
+  name: uploadcare  # Example: use Uploadcare as media backend (optional)
+```
+
+# source/admin/index.html
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Content Manager</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+  </head>
+  <body>
+     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </body>
+</html>
+
 ```
 
 # source/printer-profiles/DrkPxl_Experimental_3.2_Final.curaprofile.zip

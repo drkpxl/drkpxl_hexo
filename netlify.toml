@@ -10,9 +10,3 @@
   skip_processing = false
 [build.processing.images]
   compress = true
-
-
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
