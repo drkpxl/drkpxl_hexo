@@ -151,6 +151,8 @@ node_modules/
 public/
 .deploy*/
 _multiconfig.yml
+node_modules
+.env
 ```
 
 # .gitmodules
@@ -159,6 +161,21 @@ _multiconfig.yml
 [submodule "themes/cactus"]
 	path = themes/cactus
 	url = https://github.com/drkpxl/hexo-theme-cactus
+
+```
+
+# content/posts/hello-world.md
+
+```md
+---
+title: Hello, World!
+---
+
+## Hello World!
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non lorem diam. Quisque vulputate nibh sodales eros pretium tincidunt. Aenean porttitor efficitur convallis. Nulla sagittis finibus convallis. Phasellus in fermentum quam, eu egestas tortor. Maecenas ac mollis leo. Integer maximus eu nisl vel sagittis.
+
+Suspendisse facilisis, mi ac scelerisque interdum, ligula ex imperdiet felis, a posuere eros justo nec sem. Nullam laoreet accumsan metus, sit amet tincidunt orci egestas nec. Pellentesque ut aliquet ante, at tristique nunc. Donec non massa nibh. Ut posuere lacus non aliquam laoreet. Fusce pharetra ligula a felis porttitor, at mollis ipsum maximus. Donec quam tortor, vehicula a magna sit amet, tincidunt dictum enim. In hac habitasse platea dictumst. Mauris sit amet ornare ligula, blandit consequat risus. Duis malesuada pellentesque lectus, non feugiat turpis eleifend a. Nullam tempus ante et diam pretium, ac faucibus ligula interdum.
 
 ```
 
@@ -235,11 +252,6 @@ _multiconfig.yml
 [build.processing.images]
   compress = true
 
-
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
 ```
 
 # package.json
@@ -503,48 +515,6 @@ date: 2024-11-22 17:18:55
 # Hello, I'm Steven
 
 I'm a thinker, maker and overall curious dad. When I am not working my full time job I am busy being a dad, a cyclist, and a closet 3d printer and maker. DrkPxl.com is a place to document that work.
-```
-
-# source/admin/config.yml
-
-```yml
-backend:
-  name: git
-  repo: drkpxl/drkpxl_hexo # Replace with your GitHub repository
-  branch: main  # Replace with your GitHub branch
-
-media_folder: "source/images/uploads"  # Where images will be stored
-public_folder: "/images/uploads"
-
-collections:
-  - name: "posts"  # Name in the CMS
-    label: "Posts"
-    folder: "source/_posts"  # Location in your repository
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
-media_library:  # Optional: Customize media library
-  name: uploadcare  # Example: use Uploadcare as media backend (optional)
-```
-
-# source/admin/index.html
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Content Manager</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    
-  </head>
-  <body>
-     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
-</html>
-
 ```
 
 # source/printer-profiles/DrkPxl_Experimental_3.2_Final.curaprofile.zip
@@ -913,8 +883,6 @@ node_modules/
 # themes/cactus/layout/_partial/footer.ejs
 
 ```ejs
-
-
 
 <footer id="footer">
 
