@@ -1,13 +1,11 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DrkPxl Labs Content Manager</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
-
 <body>
     <script>
         window.CMS_MANUAL_INIT = true;
@@ -20,21 +18,17 @@
                     load_config_file: false,
                     backend: {
                         name: 'github',
-                        repo: 'drkpxl/drkpxl_hexo', // Replace with your repo
+                        repo: 'drkpxl/drkpxl_hexo',
                         branch: 'main',
                         base_url: 'https://api.netlify.com'
                     },
                     media_folder: "source/images",
-                    media_library: {
-                        media_folder: "source/images",
-                        public_folder: "/images",
-                        clean_accents: true,
-                        sanitize_replacement: "-", // Replaces spaces and special chars with hyphens
-                        default_transformations: {
-                            encode_filenames: true // This will URL-encode filenames
-                        }
-                    },
                     public_folder: "/images",
+                    slug: {
+                        encoding: "ascii",
+                        clean_accents: true,
+                        sanitize_replacement: "-"
+                    },
                     collections: [
                         {
                             name: "posts",
@@ -48,7 +42,13 @@
                                 { label: "Description", name: "description", widget: "string" },
                                 { label: "Tags", name: "tags", widget: "list" },
                                 { label: "Categories", name: "categories", widget: "list" },
-                                { label: "Preview Image", name: "preview", widget: "image", required: false },
+                                { 
+                                    label: "Preview Image", 
+                                    name: "preview", 
+                                    widget: "image", 
+                                    required: false,
+                                    pattern: ['^[a-z0-9-]+\.(jpg|jpeg|png|gif|webp)$', "Filename must contain only lowercase letters, numbers, and hyphens"]
+                                },
                                 { label: "Draft", name: "draft", widget: "boolean", default: true },
                                 { label: "Body", name: "body", widget: "markdown" }
                             ]
@@ -60,5 +60,4 @@
         init();
     </script>
 </body>
-
 </html>
