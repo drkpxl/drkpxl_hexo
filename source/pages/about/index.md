@@ -1,6 +1,7 @@
 ---
 title: about
 date: 2024-11-22 17:18:55
+permalink: about/
 ---
 
 # Hello, I'm Steven

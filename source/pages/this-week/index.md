@@ -1,6 +1,6 @@
 ---
 title: "This Week"
-slug: "this-week"
+permalink: this-week/
 date: "2024-09-27"
 lastmod: "2024-10-15"
 tags: ['life']

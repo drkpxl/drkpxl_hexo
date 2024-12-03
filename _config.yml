@@ -91,6 +91,11 @@ updated_option: 'mtime'
 per_page: 15
 pagination_dir: page
 
+# Page Generator
+generator:
+  pages:
+    permalink: :title/ # This will override the permalink for pages
+
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
 include:
