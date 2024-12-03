@@ -18,3 +18,4 @@ themes/cactus/README.md
 source/this-week/
 themes/cactus/gulpfile.js
 themes/cactus/source/css/rtl.styl
+public/
