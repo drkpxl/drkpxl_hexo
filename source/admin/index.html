@@ -85,16 +85,22 @@
                         {
                             name: "projects",
                             label: "Projects",
-                            file: "source/_data/projects.json",
-                            fields: [
+                            files: [
                                 {
-                                    label: "Projects",
-                                    name: "projects",
-                                    widget: "list",
+                                    name: "project-list",
+                                    label: "Project List",
+                                    file: "source/_data/projects.json",
                                     fields: [
-                                        { label: "Name", name: "name", widget: "string" },
-                                        { label: "URL", name: "url", widget: "string" },
-                                        { label: "Description", name: "desc", widget: "text" }
+                                        {
+                                            label: "Projects",
+                                            name: "projects",
+                                            widget: "list",
+                                            fields: [
+                                                { label: "Name", name: "name", widget: "string" },
+                                                { label: "URL", name: "url", widget: "string" },
+                                                { label: "Description", name: "desc", widget: "text" }
+                                            ]
+                                        }
                                     ]
                                 }
                             ]
