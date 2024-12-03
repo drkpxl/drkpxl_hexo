@@ -105,6 +105,31 @@ theme_config:
   colorscheme: paperdark
 all_minifier: true
 
+
+markdown:
+  preset: 'default'
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: false
+    linkify: true
+    typographer: true
+  plugins: []
+  anchors:
+    level: 2
+    collisionSuffix: ''
+    permalink: false
+    permalinkClass: header-anchor
+    permalinkSymbol: ¶
+  marked:
+    gfm: true
+    pedantic: false
+    sanitize: false
+    tables: true
+    breaks: false
+    smartLists: true
+    smartypants: true
+    html: true
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
