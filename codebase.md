@@ -94,6 +94,11 @@ updated_option: 'mtime'
 per_page: 15
 pagination_dir: page
 
+# Page Generator
+generator:
+  pages:
+    permalink: :title/ # This will override the permalink for pages
+
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
 include:
@@ -108,6 +113,31 @@ theme_config:
   colorscheme: paperdark
 all_minifier: true
 
+
+markdown:
+  preset: 'default'
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: false
+    linkify: true
+    typographer: true
+  plugins: []
+  anchors:
+    level: 2
+    collisionSuffix: ''
+    permalink: false
+    permalinkClass: header-anchor
+    permalinkSymbol: ¶
+  marked:
+    gfm: true
+    pedantic: false
+    sanitize: false
+    tables: true
+    breaks: false
+    smartLists: true
+    smartypants: true
+    html: true
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
@@ -453,6 +483,7 @@ preview:
 ---
 title: {{ title }}
 description: A brief description of the page
+permalink: URL this should be
 ---
 
 ```
@@ -485,23 +516,23 @@ draft: true
 [
     {
        "name":"Ikon Pass Opening Days",
-       "url":"https://hexo.io/",
-       "desc":"Scraping Ikon Pass websites for their opening days using Claude's AI to verify the date."
+       "url":"https://opening.drkpxl.com",
+       "desc":" Scraping Ikon Pass websites for their opening days using Claude's AI to verify the date."
     },
     {
        "name":"Why Did You Vote",
        "url":"https://www.whydidyouvotefortrump.com",
-       "desc":"Capturing the voice of the American voter, using Google's Perspective to help keep the discussion in line"
+       "desc":" Capturing the voice of the American voter, using Google's Perspective to help keep the discussion in line"
     },
     {
        "name":"Tiny Air",
        "url":"https://air.drkpxl.com",
-       "desc":"An incredibly lightweight way to view air quality in your area. No ads, just air quality."
+       "desc":" An incredibly lightweight way to view air quality in your area. No ads, just air quality."
     },
     {
        "name":"Random Name Selector",
        "url":"https://random.drkpxl.com",
-       "desc":"An easy way to select a random name from a list, once a name is selected it can't be selected again that session. A great way to run raffles or contest. Free and not account sign up."
+       "desc":" An easy way to select a random name from a list, once a name is selected it can't be selected again that session. A great way to run raffles or contest. Free and not account sign up."
     }
 ]
 ```
@@ -595,17 +626,21 @@ collections:
                         {
                             name: "pages",
                             label: "Pages",
+                            label_singular: "Page",
                             folder: "source/pages",
                             create: true,
                             nested: {
-                                depth: 1,
+                                depth: 2,
                                 summary: "{{title}}"
                             },
+                            path: "{{slug}}/index",
+                            meta: { path: { widget: "string", label: "Path", index_file: "index" } },
                             fields: [
                                 { label: "Title", name: "title", widget: "string" },
                                 { label: "Date", name: "date", widget: "datetime" },
                                 { label: "Description", name: "description", widget: "string", required: false },
-                                { label: "Body", name: "body", widget: "markdown" }
+                                { label: "Body", name: "body", widget: "markdown" },
+                                { label: "Permalink", name: "permalink", widget: "string" }
                             ]
                         },
                         {
@@ -662,6 +697,7 @@ collections:
 ---
 title: about
 date: 2024-11-22 17:18:55
+permalink: about/
 ---
 
 # Hello, I'm Steven
@@ -669,12 +705,34 @@ date: 2024-11-22 17:18:55
 I'm a thinker, maker and overall curious dad. When I am not working my full time job I am busy being a dad, a cyclist, and a closet 3d printer and maker. DrkPxl.com is a place to document that work.
 ```
 
+# source/pages/blue-sky/index.md
+
+```md
+---
+title: Blue Sky
+date: 2024-12-03T13:19:00.000Z
+description: Blue Sky Feed
+permalink: blue-sky/
+---
+  
+  <script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js" async></script>
+
+{% raw %}
+<bsky-embed
+    username="drkpxl.com"
+    limit="5"
+    load-more="true">
+</bsky-embed>
+{% endraw %}
+
+```
+
 # source/pages/this-week/index.md
 
 ```md
 ---
 title: "This Week"
-slug: "this-week"
+permalink: this-week/
 date: "2024-09-27"
 lastmod: "2024-10-15"
 tags: ['life']
@@ -768,7 +826,7 @@ direction: ltr
 # languages/*.yml
 nav:
   home: /
-  about: /pages/about/
+  about: /about/
   articles: /archives/
   bluesky: /blue-sky/
   projects: http://github.com/drkpxl
@@ -1859,12 +1917,7 @@ node_modules/
   <header>
     <%- partial('_partial/post/title', { post: page, index: false, class_name: 'posttitle' }) %>
     <div class="meta">
-      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span class="p-name" itemprop="name"><% if (page.author) { %><%- page.author %><% } else { %><%- config.author %><% } %></span>
-      </span>
-      <%- partial('_partial/post/date', { post: page, class_name: 'postdate' }) %>
-      <%- partial('_partial/post/category') %>
-      <%- partial('_partial/post/tag') %>
+
     </div>
   </header>
   <%- partial('_partial/post/gallery') %>
@@ -2174,23 +2227,20 @@ $highlight = hexo-config("highlight") || "github"
 
 ```styl
 // Updated Stylus File by @drkpxl
-$color-background = #1b262c // Deep, dark slate, like the mountains at dusk
-$color-footer-mobile-1 = lighten($color-background, 5%) // Slightly lighter shade for mobile footer
-$color-footer-mobile-2 = lighten($color-background, 10%) // More contrast for mobile footer
-$color-border = #4d6a75 // Lighter, accessible blue-gray for borders
-$color-scrollbar = #4a90e2 // Bright sky blue for scrollbar
-$color-meta = #4a90e2 // Bright sky blue for meta text
-$color-meta-code = lighten($color-meta, 10%) // Slightly lighter version for code meta
-$color-link = #4a90e2 // Bright sky blue for links
-$color-text = #e8ecef // Light stone gray, readable against dark backgrounds
-$color-accent-3 = #FFF // White
-$color-accent-2 = lighten($color-border, 10%) // Slightly darker blue-gray for contrast
-$color-accent-1 = #8cb3c9 // Much brighter and still within the blue-gray family for strong contrast
-
-
-$color-quote = lighten($color-link, 20%) // Lightened blue for quotes
-$highlight = #212121 // Dark gray background for code highlighting
-
+$color-background = #1a1f24 // Rich dark background
+$color-footer-mobile-1 = #242b33 // Subtle gradient for mobile footer
+$color-footer-mobile-2 = #2d363f // Deeper gradient for mobile footer
+$color-border = #5d7a8c // Muted blue-gray for borders
+$color-scrollbar = #64b5f6 // Clear blue for scrollbar
+$color-meta = #90caf9 // Light blue for meta text
+$color-meta-code = #b3e5fc // Lighter blue for code meta
+$color-link = #29b6f6 // Bright blue for links
+$color-text = #ffffff // Pure white for maximum readability
+$color-accent-3 = #ffd54f // Warm yellow accent - kept for important highlights
+$color-accent-2 = #7bb5e3 // Muted blue accent - removed orange
+$color-accent-1 = #a0c3e2 // Lighter blue accent - removed green
+$color-quote = #e1f5fe // Very light blue for quotes
+$highlight = #263238 // Deep blue-gray for code highlighting
 ```
 
 # themes/cactus/source/css/_colors/white.styl
