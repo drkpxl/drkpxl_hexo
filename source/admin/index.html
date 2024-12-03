@@ -1,11 +1,13 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DrkPxl Labs Content Manager</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
+
 <body>
     <script>
         window.CMS_MANUAL_INIT = true;
@@ -17,11 +19,8 @@
                 config: {
                     load_config_file: false,
                     backend: {
-                        name: 'github',
-                        repo: 'drkpxl/drkpxl_hexo',
-                        branch: 'main',
-                        base_url: 'https://api.netlify.com',
-                        site_id: '5a76894f-5fb2-40c6-a404-d49437d813f9'
+                        name: 'git-gateway',
+                        branch: 'main'
                     },
                     media_folder: "source/images",
                     public_folder: "/images",
@@ -43,10 +42,10 @@
                                 { label: "Description", name: "description", widget: "string" },
                                 { label: "Tags", name: "tags", widget: "list" },
                                 { label: "Categories", name: "categories", widget: "list" },
-                                { 
-                                    label: "Preview Image", 
-                                    name: "preview", 
-                                    widget: "image", 
+                                {
+                                    label: "Preview Image",
+                                    name: "preview",
+                                    widget: "image",
                                     required: false,
                                     pattern: ['^[a-z0-9-]+\.(jpg|jpeg|png|gif|webp)$', "Filename must contain only lowercase letters, numbers, and hyphens"]
                                 },
@@ -61,4 +60,5 @@
         init();
     </script>
 </body>
+
 </html>
