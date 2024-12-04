@@ -1,10 +1,15 @@
 ---
-title: "Engineering a Clapper to Toggle My Living Room Lights On and Off"
-slug: "creating-a-clapper-to-toggle-my-living-room-lights-on-and-off"
-date: "2024-10-05"
-lastmod: "2024-10-07"
+draft: false
+slug: creating-a-clapper-to-toggle-my-living-room-lights-on-and-off
+lastmod: 2024-10-07
+title: Engineering a Clapper to Toggle My Living Room Lights On and Off
+date: 2024-10-05
+description: How I built a modern clapper using an ESP32 to toggle my living
+  room lights, integrating clap detection with Home Assistant for a smart home
+  upgrade.
 tags: []
-description: "nan"
+categories:
+  - code
 ---
 
 # Building a Modern Clapper: An ESP32 Adventure
