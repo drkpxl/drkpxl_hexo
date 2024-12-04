@@ -1,10 +1,16 @@
 ---
+draft: false
+slug: mellowfly-a-better-adxl-for-input-shaping
+lastmod: 2024-09-18
 title: "MellowFly: A Better ADXL for Input Shaping"
-slug: "mellowfly-a-better-adxl-for-input-shaping"
-date: "2024-09-18"
-lastmod: "2024-09-18"
-tags: [3d printing]
-description: "nan"
+date: 2024-09-18
+description: "Experimenting with the MellowFly ADXL345 accelerometer for easy 3D
+  printer tuning: USB-C, Pi 2040, great documentation, and a simple mount for
+  Voron Zero's Mini Stealthburner."
+tags:
+  - 3d printing
+categories:
+  - 3d-printing
 ---
 
 I’ve tried a few different AliExpress ADXL’s for tuning my printers over the years. Each one had me solder (which I am not great at), find and read poorly translated how-tos, or deal with making an umbilical. So, after the ADXL on my Voron 0.2 stopped being reliable, I went on a hunt and came across the **MellowFly**. For $15 USD delivered, I felt it was worth the cost.
