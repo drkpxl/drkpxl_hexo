@@ -1,12 +1,14 @@
 ---
-title: Finding My Healthy Self
+draft: false
 slug: finding-my-healthy-self
-date: 2024-09-19
 lastmod: 2024-09-19
+title: Finding My Healthy Self
+date: 2024-09-19
 description: How I took charge of my health with focused cycling, calorie
   tracking, and strength training, reclaiming fitness and balance as a busy dad
 tags: []
-draft: false
+categories:
+  - wellness
 ---
 
 As I get older I have found the weight creeping up on me. I got on the scale one day early this summer and see my weight got up to 183 lbs. Back in HS when I wrestled it was at 130. Now I know 25 years later 130 isn't a healthy weight but nor is 183. The BMI internet calculators put me as overweight.  Every body is of course different, and everyone has different goals that matter to them but for me I didn't want to be 183. So I did what everyone does these days; I poked around with AI to see what is healthy weight for a 40 something person and got to 165lbs. 18lbs less. This was gonna be some work.
