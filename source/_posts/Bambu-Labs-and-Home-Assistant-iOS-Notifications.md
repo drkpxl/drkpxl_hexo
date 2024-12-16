@@ -26,7 +26,7 @@ Before we get started, I am assuming a few things:
 1. You have Home Assistant up and running and accessible externally using Cloudflare, Casa, etc.
 2. You have the [Bambu Labs Add-on](https://github.com/greghesp/ha-bambulab) installed, configured, and running.
 3. You have the "Use image sensor camera" enabled for your printer.
-![Image Sensor Toggle](/images/bambu_image_sensor.png)
+![Image Sensor Toggle](/images/bambu_image_sensor.png =300x)
 
 ## Automation Configuration  
 
