@@ -1,6 +1,7 @@
 ---
 title: Bambu Labs and Home Assistant iOS Notifications
 date: 2024-12-15 18:23:38
+description: "A Home Assistant automation to inform you of your Bambu Lab's print's health"
 tags:
   - home assistant
   - bambu labs
