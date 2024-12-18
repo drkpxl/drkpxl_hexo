@@ -10,3 +10,39 @@
   skip_processing = false
 [build.processing.images]
   compress = true
+[build]
+  base = "/"
+  publish = "public"
+  command = "npm install && npm run build"
+
+[build.environment]
+  NODE_VERSION = "18.19"
+  NPM_VERSION = "10.2.3"
+
+[build.processing]
+  skip_processing = false
+[build.processing.images]
+  compress = true
+  
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https: data:;"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"

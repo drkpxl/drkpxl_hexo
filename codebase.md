@@ -115,14 +115,14 @@ all_minifier: true
 
 
 markdown:
-  preset: 'default'
   render:
     html: true
     xhtmlOut: false
-    breaks: false
+    breaks: true
     linkify: true
     typographer: true
-  plugins: []
+  plugins:
+    - markdown-it-imsize
   anchors:
     level: 2
     collisionSuffix: ''
@@ -264,7 +264,17 @@ Suspendisse facilisis, mi ac scelerisque interdum, ligula ex imperdiet felis, a 
   ],
   "frontMatter.framework.id": "hexo",
   "frontMatter.preview.host": "http://localhost:4000",
-  "frontMatter.content.publicFolder": "source/images"
+  "frontMatter.content.publicFolder": "source/images",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "posts",
+      "path": "[[workspace]]/source/_posts"
+    },
+    {
+      "path": "[[workspace]]/themes/cactus",
+      "title": "cactus"
+    }
+  ]
 }
 ```
 
@@ -305,18 +315,21 @@ Suspendisse facilisis, mi ac scelerisque interdum, ligula ex imperdiet felis, a 
   "dependencies": {
     "decap-cms-app": "^3.4.0",
     "hexo": "^7.3.0",
-    "hexo-all-minifier": "^0.5.7",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-tag": "^2.0.0",
     "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^6.3.0",
+    "hexo-renderer-markdown-it": "^7.1.1",
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0",
     "hexo-tag-youtube-responsive": "^0.4.2",
     "hexo-theme-landscape": "^1.0.0",
-    "hexo-theme-leedom": "^1.1.3"
+    "hexo-theme-leedom": "^1.1.3",
+    "markdown-it-imsize": "^2.0.1"
+  },
+  "devDependencies": {
+    "hexo-generator-sitemap": "^3.0.1"
   }
 }
 
@@ -1008,7 +1021,7 @@ umami_analytics:
 # logo and/or favicons of you website.
 # To generate hash: `$ echo -n "name@email.com" | md5`.
 gravatar:
-  email: name@email.com
+  email: steven@drkpxl.com
   hash: 
 
 # loads libraries and styles from CDN instead or relying on local files
@@ -1017,8 +1030,7 @@ cdn:
   jquery: https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js
   clipboard: https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js
   #font_awesome: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css
-  justified_gallery_css: https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.8.1/css/justifiedGallery.min.css
-  justified_gallery_js: https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js
+
 
 ```
 
@@ -1241,7 +1253,6 @@ node_modules/
     <title><%= page_title() %></title>
     <!-- async scripts -->
     <%- partial('./google_analytics.ejs') %>
-    <%- partial('./umami_analytics.ejs') %>
     <!-- styles -->
     <%- css('css/style') %>
     <!-- persian styles -->
@@ -1255,18 +1266,8 @@ node_modules/
     <% if (theme.rss) { %>
       <link rel="alternate" href="<%= url_for(theme.rss) %>" title="<%= config.title %>" type="application/atom+xml" />
     <% } %>
-	<!-- mathjax -->
-	<% if (theme.mathjax.enabled) {%>
-		<script type="text/x-mathjax-config">
-		  MathJax.Hub.Config({
-			tex2jax: {
-			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-			  inlineMath: [['$','$']]
-			}
-		  });
-		</script>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
-	<% } %>
+
+
 </head>
 
 ```
@@ -1523,13 +1524,6 @@ node_modules/
   <%- js('lib/jquery/jquery.min') %>
 <% } %>
 
-<% if (page.photos && page.photos.length) { %>
-  <% if (isCdnEnable('justified_gallery_js')) {%>
-    <%- getCdnScript('justified_gallery_js') %>
-  <% } else { %>
-    <%- js('lib/justified-gallery/js/jquery.justifiedGallery.min.js') %>
-  <% } %>
-<% } %>
 
 <!-- clipboard -->
 <% if (is_post()){ %>
@@ -1628,6 +1622,7 @@ node_modules/
         }());
     </script>
 <% } %>
+
 <!-- utterances Comments -->
 <% if (page.comments && theme.utterances.enabled && theme.utterances.repo && theme.utterances.issue_term && theme.utterances.theme){ %>
     <script type="text/javascript">
@@ -1823,17 +1818,21 @@ node_modules/
 </section>
 
 <% if (site.data.projects) { %>
-<section id="projects">
-  <span class="h1"><a href="<%- url_for(theme.projects_url) %>"><%= __('index.projects') %></a></span>
-  <ul class="project-list">
-    <% for(var obj in site.data.projects){ %>
-      <li class="project-item">
- <a href="<%= site.data.projects[obj].url %>"><%= site.data.projects[obj].name %></a>:  <%- markdown(site.data.projects[obj].desc) %>
-      </li>
-    <% } %>
-  </ul>
-</section>
-<% } %>
+  <section id="projects">
+    <span class="h1"><a href="<%- url_for(theme.projects_url) %>"><%= __('index.projects') %></a></span>
+    <ul class="project-list">
+      <% for(var obj in site.data.projects){ %>
+        <li class="project-item">
+          <a href="<%= site.data.projects[obj].url %>" 
+             target="_blank" 
+             rel="noopener" 
+             aria-label="Open <%= site.data.projects[obj].name %> project in new tab">
+             <%= site.data.projects[obj].name %></a>: &nbsp;<%- markdown(site.data.projects[obj].desc) %>
+        </li>
+      <% } %>
+    </ul>
+  </section>
+  <% } %>
 
 ```
 
@@ -1859,6 +1858,7 @@ node_modules/
     </div>
     <%- partial('_partial/styles') %>
     <%- partial('_partial/scripts') %>
+   
 </body>
 </html>
 
@@ -1976,7 +1976,6 @@ node_modules/
     "@fortawesome/fontawesome-free": "*",
     "clipboard": "^2.0.4",
     "jquery": "^3.3.1",
-    "justifiedGallery": "^3.6.5",
     "vazir-font": "*"
   }
 }
@@ -2240,7 +2239,7 @@ $color-accent-3 = #ffd54f // Warm yellow accent - kept for important highlights
 $color-accent-2 = #7bb5e3 // Muted blue accent - removed orange
 $color-accent-1 = #a0c3e2 // Lighter blue accent - removed green
 $color-quote = #e1f5fe // Very light blue for quotes
-$highlight = #263238 // Deep blue-gray for code highlighting
+$highlight = hexo-config("highlight") || "tomorrow-night-blue" // Use github highlighting as default
 ```
 
 # themes/cactus/source/css/_colors/white.styl
@@ -3697,6 +3696,7 @@ $colors = hexo-config("colorscheme") || "dark"
 @import "_extend"
 @import "_fonts"
 
+
 global-reset()
 
 *, *:before, *:after
@@ -3950,19 +3950,10 @@ This is a binary file of the type: Image
 # themes/cactus/source/js/main.js
 
 ```js
-/**
- * Sets up Justified Gallery.
- */
-if (!!$.prototype.justifiedGallery) {
-  var options = {
-    rowHeight: 140,
-    margins: 4,
-    lastRow: "justify"
-  };
-  $(".article-gallery").justifiedGallery(options);
-}
+
 
 $(document).ready(function() {
+
 
   /**
    * Shows the responsive navigation menu on mobile.
@@ -3971,9 +3962,8 @@ $(document).ready(function() {
     $("#header > #nav > ul").toggleClass("responsive");
   });
 
-
   /**
-   * Controls the different versions of  the menu in blog post articles 
+   * Controls the different versions of the menu in blog post articles 
    * for Desktop, tablet and mobile.
    */
   if ($(".post").length) {
@@ -4007,24 +3997,40 @@ $(document).ready(function() {
      * Add a scroll listener to the menu to hide/show the navigation links.
      */
     if (menu.length) {
+      var lastScrollTop = 0;
+      var isScrolling;
+
       $(window).on("scroll", function() {
-        var topDistance = menu.offset().top;
+        var scrollTop = $(window).scrollTop();
+        
+        // Clear the timeout throughout the scroll
+        window.clearTimeout(isScrolling);
 
-        // hide only the navigation links on desktop
-        if (!nav.is(":visible") && topDistance < 50) {
-          nav.show();
-        } else if (nav.is(":visible") && topDistance > 100) {
-          nav.hide();
-        }
+        // Set a timeout to run after scrolling ends
+        isScrolling = setTimeout(function() {
+          // Show nav when scrolling up or near the top
+          if (scrollTop < lastScrollTop || scrollTop < 50) {
+            nav.fadeIn(200);
+            $("#menu-icon-tablet").fadeIn(200);
+            $("#top-icon-tablet").fadeOut(200);
+          } else {
+            // Only hide nav if we're not at the bottom of the page
+            if ((window.innerHeight + scrollTop) < $(document).height() - 50) {
+              nav.fadeOut(200);
+              $("#menu-icon-tablet").fadeOut(200);
+              $("#top-icon-tablet").fadeIn(200);
+            }
+          }
+          lastScrollTop = scrollTop;
+        }, 100);
+      });
 
-        // on tablet, hide the navigation icon as well and show a "scroll to top
-        // icon" instead
-        if ( ! $( "#menu-icon" ).is(":visible") && topDistance < 50 ) {
-          $("#menu-icon-tablet").show();
-          $("#top-icon-tablet").hide();
-        } else if (! $( "#menu-icon" ).is(":visible") && topDistance > 100) {
-          $("#menu-icon-tablet").hide();
-          $("#top-icon-tablet").show();
+      // Show navigation when hovering near the top of the screen
+      $(document).on('mousemove', function(e) {
+        if (e.clientY < 50) {
+          nav.fadeIn(200);
+          $("#menu-icon-tablet").fadeIn(200);
+          $("#top-icon-tablet").fadeOut(200);
         }
       });
     }
@@ -4033,21 +4039,21 @@ $(document).ready(function() {
      * Show mobile navigation menu after scrolling upwards,
      * hide it again after scrolling downwards.
      */
-    if ($( "#footer-post").length) {
+    if ($("#footer-post").length) {
       var lastScrollTop = 0;
       $(window).on("scroll", function() {
         var topDistance = $(window).scrollTop();
 
-        if (topDistance > lastScrollTop){
-          // downscroll -> show menu
-          $("#footer-post").hide();
+        if (topDistance > lastScrollTop) {
+          // downscroll -> hide menu
+          $("#footer-post").fadeOut(200);
         } else {
-          // upscroll -> hide menu
-          $("#footer-post").show();
+          // upscroll -> show menu
+          $("#footer-post").fadeIn(200);
         }
         lastScrollTop = topDistance;
 
-        // close all submenu"s on scroll
+        // close all submenu's on scroll
         $("#nav-footer").hide();
         $("#toc-footer").hide();
         $("#share-footer").hide();
@@ -4063,7 +4069,6 @@ $(document).ready(function() {
     }
   }
 });
-
 ```
 
 # themes/cactus/source/js/search.js

@@ -1,20 +1,5 @@
 {
     "frontMatter.git.enabled": true,
-    "frontMatter.content.pageFolders": [
-        {
-            "title": "posts",
-            "path": "[[workspace]]/source/_posts"
-        },
-        {
-            "path": "[[workspace]]/themes/cactus"
-        },
-        {
-            "path": "[[workspace]]/source/about"
-        },
-        {
-            "path": "[[workspace]]/source/this-week"
-        }
-    ],
     "markdown.preview.doubleClickToSwitchToEditor": true,
     "markdown.preview.breaks": false,
     "markdown.preview.typographer": true,
