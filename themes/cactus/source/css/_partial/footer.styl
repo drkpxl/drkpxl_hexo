@@ -1,0 +1,48 @@
+#footer
+  border-top: 1px dashed $color-accent-1
+  display: flex
+  flex-direction: column
+  bottom: 0
+  margin-bottom: 10px
+  width: 100%
+  color: $color-meta
+  vertical-align: top
+  text-align: center
+  font-size: 1rem
+  margin-top: 100px
+
+  ul
+    margin: 0
+    padding: 0
+    list-style: none
+    display: flex
+    justify-content: center
+    flex-wrap: wrap /* Allows wrapping if content doesn't fit */
+
+  li
+    display: inline-block
+    margin-right: 15px
+    vertical-align: middle
+
+    &:last-child
+      margin-right: 0
+      border-right: 0
+
+  a
+    color: $color-meta
+    text-decoration: underline
+    background-image: none
+
+  a:hover
+    color: lighten($color-meta, 20%)
+
+@media (max-width: 768px)
+  #footer
+    flex-direction: column
+    align-items: center
+
+    ul
+      justify-content: center /* Center aligns the list */
+
+    li
+      margin-right: 10px /* Adjust spacing for mobile */

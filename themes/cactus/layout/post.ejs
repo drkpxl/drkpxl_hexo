@@ -1,0 +1,13 @@
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <%- partial('_partial/post/title', { post: page, index: false, class_name: 'posttitle' }) %>
+    <div class="meta">
+
+    </div>
+  </header>
+  <%- partial('_partial/post/gallery') %>
+  <div class="content e-content" itemprop="articleBody">
+    <%- page.content %>
+  </div>
+</article>
+<%- partial('_partial/comments') %>
