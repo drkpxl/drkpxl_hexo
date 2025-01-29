@@ -1,17 +1,13 @@
-[
-build
-]
-  base = "/"
-  publish = "public"
-  command = "npm install && hexo generate"
-  environment = { NODE_VERSION = "22.11" }
+[build]
+base = "/"
+publish = "public"
+command = "npm install && hexo generate"
 
-[
-build.processing
-]
-  skip_processing = false
+[build.environment]
+NODE_VERSION = "22.11"
 
-[
-build.processing.images
-]
-  compress = true
+[build.processing]
+skip_processing = false
+
+[build.processing.images]
+compress = true
