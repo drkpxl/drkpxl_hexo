@@ -1,7 +1,7 @@
 ---
 title: "Tracking Ikon Pass Resort Opening Dates"
 slug: "scraping-opening-days-for-ikon-pass"
-date: "2024-10-31"
+date: "2024-11-22"
 lastmod: "2024-11-22"
 tags: [ai, hacks, nodes, projects, apps]
 description: "Built an automated tracking system using NodeJS and AI to monitor ski resort opening dates, featuring web scraping, data processing, and real-time notifications."
@@ -9,12 +9,12 @@ description: "Built an automated tracking system using NodeJS and AI to monitor 
 
 ![Screenshot 2024-11-01 at 10](/images/02-am.webp)
 
-
-At Ikon Pass we have always found it frustrating to track resort opening dates. These dates often shift due to weather conditions, and resorts tend to make last-minute decisions based on always changing weather that can be easy to miss. To solve this problem, I built an automated tracking system that keeps Ikon Pass employees and  pass holders informed of the latest opening dates and pushes that information to both a webpage and a Slack web hook so employees can know right when it goes up.
+At Ikon Pass we have always found it frustrating to track resort opening dates. These dates often shift due to weather conditions, and resorts tend to make last-minute decisions based on always changing weather that can be easy to miss. To solve this problem, I built an automated tracking system that keeps Ikon Pass employees and pass holders informed of the latest opening dates and pushes that information to both a webpage and a Slack web hook so employees can know right when it goes up.
 
 ## The Vision
 
 I wanted to create a tool that would:
+
 - Automatically scrape all Ikon Pass resort websites for opening dates
 - Use AI to standardize the varied ways resorts announce their opening dates
 - Present the information in a clear, user-friendly format on web and in Slack
@@ -43,13 +43,13 @@ Two major insights emerged during development:
 ## Technical Details
 
 The system works by:
+
 1. Scanning resort homepages for keywords like "opening" and potential date patterns
 2. Storing the scraped information in JSON format
 3. Processing the raw text through Claude to standardize the date formats and language
 4. Displaying the processed information with visual indicators for changed dates and upcoming openings
 
 ![Screenshot 2024-11-01 at 10](/images/22-am.webp)
-
 
 ## Want to Know More?
 
