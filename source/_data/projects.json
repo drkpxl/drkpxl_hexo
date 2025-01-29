@@ -1,4 +1,9 @@
 [
+   {
+      "name": "PrintWatch",
+      "url": "https://github.com/drkpxl/printwatch-card",
+      "desc": "A Home Assistant custom card to display the status of your  Bambu Labs printer."
+   }
     {
        "name":"Ikon Pass Opening Days",
        "url":"https://opening.drkpxl.com",
