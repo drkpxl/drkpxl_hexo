@@ -60,9 +60,6 @@
         border-color: $color-accent-1
         vertical-align: middle
 
-      .icon
-        display: none
-
       li:last-child
         margin-right: 0
         border-right: 0
@@ -70,13 +67,16 @@
         a
           margin-right: 0
 
-if $logo-grayout
-  #header:hover
-    #logo
-      filter: none
-      -webkit-filter: none
-
 @media screen and (max-width: 480px)
   #header
-    #logo
-      display: none
+    margin-bottom: 1rem
+    
+    #nav
+      ul
+        text-align: center
+        
+      li
+        margin-right: 10px
+        
+        a
+          font-size: .9rem

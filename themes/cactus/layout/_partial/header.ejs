@@ -21,12 +21,9 @@
   </a>
   <div id="nav">
     <ul>
-      <li class="icon">
-        <a href="#" aria-label="<%- __('icons.menu') %>"><i class="fa-solid fa-bars fa-2x"></i></a>
-      </li>
-      <% for (var i in theme.nav) { %><!--
-     --><li><a href="<%- url_for(theme.nav[i]) %>"><%= __('nav.'+i).replace("nav.", "") %></a></li><!--
-   --><% } %>
+      <% for (var i in theme.nav) { %>
+        <li><a href="<%- url_for(theme.nav[i]) %>"><%= __('nav.'+i).replace("nav.", "") %></a></li>
+      <% } %>
     </ul>
   </div>
 </header>
