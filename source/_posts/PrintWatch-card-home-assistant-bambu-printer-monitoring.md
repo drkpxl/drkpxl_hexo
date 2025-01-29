@@ -1,6 +1,6 @@
 ---
 title: "PrintWatch Card: A Smart Dashboard for Your Bambu Lab Printer"
-date: 2025-01-29
+date: "2025-01-29"
 description: "A feature-rich Home Assistant card for monitoring your Bambu Lab printer with real-time updates, temperature monitoring, and material tracking"
 tags:
   - home assistant
