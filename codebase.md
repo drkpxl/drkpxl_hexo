@@ -110,7 +110,7 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: cactus
 theme_config:
-  colorscheme: paperdark
+  colorscheme: paper
 all_minifier: true
 
 
@@ -146,32 +146,6 @@ deploy:
 
 ```
 
-# .aidigestignore
-
-```
-node_modules/
-.github/
-.vscode/
-.frontmatter/
-themes/drkpxl/
-yarn.lock
-package-lock.json
-_config.landscape.yml
-db.json
-source/_posts/
-themes/cactus/languages/
-themes/cactus/source/css/_highlight/
-themes/cactus/source/lib/
-themes/cactus/LICENSE
-source/images/
-source/_drafts/
-themes/cactus/README.md
-source/this-week/
-themes/cactus/gulpfile.js
-themes/cactus/source/css/rtl.styl
-public/
-```
-
 # .gitignore
 
 ```
@@ -187,13 +161,13 @@ node_modules
 .env
 ```
 
-# .gitmodules
+# .npmrc
 
 ```
-[submodule "themes/cactus"]
-	path = themes/cactus
-	url = https://github.com/drkpxl/hexo-theme-cactus
-
+legacy-peer-deps=true
+auto-install-peers=true
+strict-peer-dependencies=false
+resolution-mode=highest
 ```
 
 # content/posts/hello-world.md
@@ -282,32 +256,35 @@ Suspendisse facilisis, mi ac scelerisque interdum, ligula ex imperdiet felis, a 
 
 ```toml
 [build]
-  base = "/"
-  publish = "public"
-  command = "npm install && hexo generate"
+base = "/"
+publish = "public"
+command = "npm install && hexo generate"
 
 [build.environment]
-  NODE_VERSION = "22.11"
+NODE_VERSION = "22.11"
 
 [build.processing]
-  skip_processing = false
-[build.processing.images]
-  compress = true
+skip_processing = false
 
+[build.processing.images]
+compress = true
 ```
 
 # package.json
 
 ```json
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "drkpxl-labs",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "dev": "hexo server --draft",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "hexo": {
     "version": "7.3.0"
@@ -324,15 +301,25 @@ Suspendisse facilisis, mi ac scelerisque interdum, ligula ex imperdiet felis, a 
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0",
     "hexo-tag-youtube-responsive": "^0.4.2",
-    "hexo-theme-landscape": "^1.0.0",
-    "hexo-theme-leedom": "^1.1.3",
     "markdown-it-imsize": "^2.0.1"
   },
   "devDependencies": {
-    "hexo-generator-sitemap": "^3.0.1"
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "hexo-generator-sitemap": "^3.0.1",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "resolutions": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
-
 ```
 
 # README.md
@@ -527,6 +514,11 @@ draft: true
 
 ```json
 [
+   {
+      "name": "PrintWatch",
+      "url": "https://github.com/drkpxl/printwatch-card",
+      "desc": "A Home Assistant custom card to display the status of your  Bambu Labs printer."
+   }
     {
        "name":"Ikon Pass Opening Days",
        "url":"https://opening.drkpxl.com",
@@ -1298,16 +1290,12 @@ node_modules/
   </a>
   <div id="nav">
     <ul>
-      <li class="icon">
-        <a href="#" aria-label="<%- __('icons.menu') %>"><i class="fa-solid fa-bars fa-2x"></i></a>
-      </li>
-      <% for (var i in theme.nav) { %><!--
-     --><li><a href="<%- url_for(theme.nav[i]) %>"><%= __('nav.'+i).replace("nav.", "") %></a></li><!--
-   --><% } %>
+      <% for (var i in theme.nav) { %>
+        <li><a href="<%- url_for(theme.nav[i]) %>"><%= __('nav.'+i).replace("nav.", "") %></a></li>
+      <% } %>
     </ul>
   </div>
 </header>
-
 ```
 
 # themes/cactus/layout/_partial/pagination.ejs
@@ -1843,25 +1831,15 @@ node_modules/
 <html<%= config.language ? " lang=" + config.language.substring(0, 2) : ""%>>
 <%- partial('_partial/head') %>
 <body class="max-width mx-auto px3 <%- theme.direction -%>">
-    <% if (is_post()) { %>
-      <%- partial('_partial/post/actions_desktop') %>
-    <% } %>
     <div class="content index py4 <%= is_home() ? 'h-card' : '' %>">
-        <% if (!is_post()) { %>
-          <%- partial('_partial/header') %>
-        <% } %>
+        <%- partial('_partial/header') %>
         <%- body %>
-        <% if (is_post()) { %>
-          <%- partial('_partial/post/actions_mobile') %>
-        <% } %>
         <%- partial('_partial/footer') %>
     </div>
     <%- partial('_partial/styles') %>
     <%- partial('_partial/scripts') %>
-   
 </body>
 </html>
-
 ```
 
 # themes/cactus/layout/page.ejs
@@ -2753,9 +2731,6 @@ article
         border-color: $color-accent-1
         vertical-align: middle
 
-      .icon
-        display: none
-
       li:last-child
         margin-right: 0
         border-right: 0
@@ -2763,16 +2738,19 @@ article
         a
           margin-right: 0
 
-if $logo-grayout
-  #header:hover
-    #logo
-      filter: none
-      -webkit-filter: none
-
 @media screen and (max-width: 480px)
   #header
-    #logo
-      display: none
+    margin-bottom: 1rem
+    
+    #nav
+      ul
+        text-align: center
+        
+      li
+        margin-right: 10px
+        
+        a
+          font-size: .9rem
 ```
 
 # themes/cactus/source/css/_partial/index.styl
@@ -2841,356 +2819,6 @@ if $logo-grayout
 
   a:hover:not(.active)
     color: $color-accent-2
-
-```
-
-# themes/cactus/source/css/_partial/post/actions_desktop.styl
-
-```styl
-#header-post
-  position: fixed
-  top: 2rem
-  right: 0
-  display: inline-block
-  float: right
-  z-index: 100
-
-  a
-    background: none
-    color: inherit
-    text-decoration: none
-
-  a.icon
-    background: none
-
-    &:hover
-      color: $color-link
-
-  ol
-    list-style-type: none
-
-  ul
-    display: inline-block
-    margin: 0
-    padding: 0
-    list-style-type: none
-
-    li
-      display: inline-block
-      margin-right: 15px
-      vertical-align: middle
-
-    li:last-child
-      margin-right: 0
-
-  #menu-icon
-    float: right
-    margin-right: 2rem
-    margin-left: 15px
-
-    &:hover
-      color: $color-accent-1
-
-  #menu-icon-tablet
-    float: right
-    margin-right: 2rem
-    margin-left: 15px
-
-    &:hover
-      color: $color-accent-1
-
-  #top-icon-tablet
-    position: fixed
-    right: 2rem
-    bottom: 2rem
-    margin-right: 2rem
-    margin-left: 15px
-
-    &:hover
-      color: $color-accent-1
-
-  .active
-    color: $color-accent-1
-
-  #menu
-    display: none
-    margin-right: 2rem
-
-  #nav
-    color: $color-accent-1
-    letter-spacing: .01em
-    font-weight: 200
-    font-style: normal
-    font-size: 1rem
-
-    ul
-      line-height: 15px
-
-      a
-        margin-right: 15px
-        color: $color-accent-1
-
-      a:hover
-        underline(5px, $color-accent-1)
-
-      li
-        border-right: 1px dotted $color-accent-1
-
-      li:last-child
-        margin-right: 0
-        border-right: 0
-
-        a
-          margin-right: 0
-
-  #actions
-    float: right
-    margin-top: 2rem
-    margin-right: 2rem
-    width: 100%
-    text-align: right
-
-    ul
-      display: block
-
-    .info
-      display: block
-      font-style: italic
-
-  #share
-    clear: both
-    padding-top: 1rem
-    padding-right: 2rem
-    text-align: right
-
-    li
-      display: block
-      margin: 0
-
-  #toc
-    float: right
-    clear: both
-    overflow: auto
-    margin-top: 1rem
-    padding-right: 2rem
-    max-width: 20em
-    max-height: calc(95vh - 7rem)
-    text-align: right
-
-    a:hover
-      color: $color-link
-
-    .toc-level-1 > .toc-link
-      display: none
-
-    .toc-level-2
-      color: $color-text
-      font-size: 1rem
-
-      &:before
-        color: $color-accent-1
-        content: "#"
-
-    .toc-level-3
-      color: $color-meta
-      font-size: .9rem
-
-    .toc-level-4
-      color: darken($color-meta, 20%)
-      font-size: .7rem
-
-    .toc-level-5
-      display: none
-
-    .toc-level-6
-      display: none
-
-    .toc-number
-      display: none
-
-// smartphone + phapblet
-@media screen and (max-width: 500px)
-  #header-post
-    display: none
-
-@media screen and (max-width: 900px)
-  #header-post
-    #menu-icon
-      display: none
-
-    #actions
-      display: none
-
-@media screen and (max-width: 1199px)
-  #header-post
-    #toc
-      display: none
-
-@media screen and (min-width: 900px)
-  #header-post
-    #menu-icon-tablet
-      display: none !important
-
-    #top-icon-tablet
-      display: none !important
-
-@media screen and (min-width: 1199px)
-  #header-post
-    #actions
-      width: auto
-
-      ul
-        display: inline-block
-        float: right
-
-      .info
-        display: inline
-        float: left
-        margin-right: 2rem
-        font-style: italic
-
-@media print 
-  #header-post
-    display: none
-  #footer-post-container
-    display: none
-
-```
-
-# themes/cactus/source/css/_partial/post/actions_mobile.styl
-
-```styl
-#footer-post
-  position: fixed
-  right: 0
-  bottom: 0
-  left: 0
-  z-index: 5000000
-  width: 100%
-  border-top: 1px solid $color-border
-  background: $color-footer-mobile-1
-  transition: opacity .2s
-
-  a
-    background: none
-    color: inherit
-    text-decoration: none
-
-  a.icon
-    background: none
-
-    &:hover
-      color: $color-link
-
-  #nav-footer
-    padding-right: 1rem
-    padding-left: 1rem
-    background: $color-footer-mobile-2
-    text-align: center
-
-    a
-      color: $color-accent-1
-      font-size: 1em
-
-    a:hover
-      underline(5px, $color-accent-1)
-
-    ul
-      display: table
-      margin: 0
-      padding: 0
-      width: 100%
-      list-style-type: none
-
-      li
-        display: inline-table
-        padding: 10px
-        width: 20%
-        vertical-align: middle
-
-  #actions-footer
-    overflow: auto
-    margin-top: 1rem
-    margin-bottom: 1rem
-    padding-right: 1rem
-    padding-left: 1rem
-    width: 100%
-    text-align: center
-    white-space: nowrap
-
-    a
-      display: inline-block
-      padding-left: 1rem
-      color: $color-accent-1
-
-  #share-footer
-    padding-right: 1rem
-    padding-left: 1rem
-    background: $color-footer-mobile-2
-    text-align: center
-
-    ul
-      display: table
-      margin: 0
-      padding: 0
-      width: 100%
-      list-style-type: none
-
-      li
-        display: inline-table
-        padding: 10px
-        width: 20%
-        vertical-align: middle
-
-  #toc-footer
-    clear: both
-    padding-top: 1rem
-    padding-bottom: 1rem
-    background: $color-footer-mobile-2
-    text-align: left
-
-    ol
-      margin: 0
-      padding-left: 20px
-      list-style-type: none
-
-      li
-        line-height: 30px
-
-    a:hover
-      color: $color-link
-
-    .toc-level-1 > .toc-link
-      display: none
-
-    .toc-level-2
-      color: $color-text
-      font-size: .8rem
-
-      &:before
-        color: $color-accent-1
-        content: "#"
-
-    .toc-level-3
-      color: $color-meta
-      font-size: .7rem
-      line-height: 15px
-
-    .toc-level-4
-      display: none
-
-    .toc-level-5
-      display: none
-
-    .toc-level-6
-      display: none
-
-    .toc-number
-      display: none
-
-@media screen and (min-width: 500px)
-  #footer-post-container
-    display: none
 
 ```
 
@@ -3827,8 +3455,6 @@ body
     text-align: justify
 
 @import "_partial/header"
-@import "_partial/post/actions_desktop"
-@import "_partial/post/actions_mobile"
 @import "_partial/index"
 @import "_partial/article"
 @import "_partial/archive"
@@ -3950,124 +3576,32 @@ This is a binary file of the type: Image
 # themes/cactus/source/js/main.js
 
 ```js
-
-
 $(document).ready(function() {
-
-
   /**
-   * Shows the responsive navigation menu on mobile.
-   */
-  $("#header > #nav > ul > .icon").click(function() {
-    $("#header > #nav > ul").toggleClass("responsive");
-  });
-
-  /**
-   * Controls the different versions of the menu in blog post articles 
-   * for Desktop, tablet and mobile.
+   * Set up any necessary scroll listeners for smooth scrolling
+   * and navigation visibility
    */
   if ($(".post").length) {
-    var menu = $("#menu");
-    var nav = $("#menu > #nav");
-    var menuIcon = $("#menu-icon, #menu-icon-tablet");
-
-    /**
-     * Display the menu on hi-res laptops and desktops.
-     */
-    if ($(document).width() >= 1440) {
-      menu.show();
-      menuIcon.addClass("active");
-    }
-
-    /**
-     * Display the menu if the menu icon is clicked.
-     */
-    menuIcon.click(function() {
-      if (menu.is(":hidden")) {
-        menu.show();
-        menuIcon.addClass("active");
+    var lastScrollTop = 0;
+    $(window).on("scroll", function() {
+      var scrollTop = $(window).scrollTop();
+      
+      // Show "back to top" button when scrolled down
+      if (scrollTop > 300) {
+        $("#top-link").fadeIn();
       } else {
-        menu.hide();
-        menuIcon.removeClass("active");
+        $("#top-link").fadeOut();
       }
-      return false;
+      
+      lastScrollTop = scrollTop;
     });
-
-    /**
-     * Add a scroll listener to the menu to hide/show the navigation links.
-     */
-    if (menu.length) {
-      var lastScrollTop = 0;
-      var isScrolling;
-
-      $(window).on("scroll", function() {
-        var scrollTop = $(window).scrollTop();
-        
-        // Clear the timeout throughout the scroll
-        window.clearTimeout(isScrolling);
-
-        // Set a timeout to run after scrolling ends
-        isScrolling = setTimeout(function() {
-          // Show nav when scrolling up or near the top
-          if (scrollTop < lastScrollTop || scrollTop < 50) {
-            nav.fadeIn(200);
-            $("#menu-icon-tablet").fadeIn(200);
-            $("#top-icon-tablet").fadeOut(200);
-          } else {
-            // Only hide nav if we're not at the bottom of the page
-            if ((window.innerHeight + scrollTop) < $(document).height() - 50) {
-              nav.fadeOut(200);
-              $("#menu-icon-tablet").fadeOut(200);
-              $("#top-icon-tablet").fadeIn(200);
-            }
-          }
-          lastScrollTop = scrollTop;
-        }, 100);
-      });
-
-      // Show navigation when hovering near the top of the screen
-      $(document).on('mousemove', function(e) {
-        if (e.clientY < 50) {
-          nav.fadeIn(200);
-          $("#menu-icon-tablet").fadeIn(200);
-          $("#top-icon-tablet").fadeOut(200);
-        }
-      });
-    }
-
-    /**
-     * Show mobile navigation menu after scrolling upwards,
-     * hide it again after scrolling downwards.
-     */
-    if ($("#footer-post").length) {
-      var lastScrollTop = 0;
-      $(window).on("scroll", function() {
-        var topDistance = $(window).scrollTop();
-
-        if (topDistance > lastScrollTop) {
-          // downscroll -> hide menu
-          $("#footer-post").fadeOut(200);
-        } else {
-          // upscroll -> show menu
-          $("#footer-post").fadeIn(200);
-        }
-        lastScrollTop = topDistance;
-
-        // close all submenu's on scroll
-        $("#nav-footer").hide();
-        $("#toc-footer").hide();
-        $("#share-footer").hide();
-
-        // show a "navigation" icon when close to the top of the page, 
-        // otherwise show a "scroll to the top" icon
-        if (topDistance < 50) {
-          $("#actions-footer > #top").hide();
-        } else if (topDistance > 100) {
-          $("#actions-footer > #top").show();
-        }
-      });
-    }
   }
+
+  // Smooth scroll to top
+  $("#top-link").click(function(e) {
+    e.preventDefault();
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+  });
 });
 ```
 
