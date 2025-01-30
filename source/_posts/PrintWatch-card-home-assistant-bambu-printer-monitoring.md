@@ -13,7 +13,7 @@ categories:
   - 3d printing
 ---
 
-After setting up my Bambu Lab printer with Home Assistant, I found myself wanting a better way to monitor prints than constantly opening the Handy app which sends data through the cloud and is VERY laggy. I was getting "printe complete" notifications from the app 8 hours after the print finished! While existing printer cards were functional, they didn't quite give me the all-in-one minimal and clean view I wanted. So, I built PrintWatch - a custom Home Assistant card that brings all your printer's vital stats into one clean interface.
+After setting up my Bambu Lab printer with Home Assistant, I found myself wanting a better way to monitor prints than constantly opening the Handy app which sends data through the cloud and is VERY laggy. I was getting "print complete" notifications from the app 8 hours after the print finished! While existing printer cards were functional, they didn't quite give me the all-in-one minimal and clean view I wanted. So, I built PrintWatch - a custom Home Assistant card that brings all your printer's vital stats into one clean interface.
 
 ![PrintWatch Card Screenshot](../images/dark-mode-min.png)
 
