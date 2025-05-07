@@ -3,14 +3,12 @@ title: Easiest way to run Wallabag on Digital Ocean
 date: 2025-05-05 18:23:38
 description: "Yhis guide walks you through setting up Wallabag using Docker Compose on a new server. The goal is to get it running first try, no surprises,"
 tags:
-  - home assistant
-  - bambu labs
-  - notifications
-  - yaml
+  - home automation
+  - self hosting
+
 categories:
   - code
-  - home automation
-  - 3d printing
+  - self hosting
 ---
 
 # 🧾 How to Install Wallabag with Docker (The Easy Way)
