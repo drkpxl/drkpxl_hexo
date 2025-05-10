@@ -15,7 +15,7 @@
     "version": "7.3.0"
   },
   "dependencies": {
-    "decap-cms-app": "^3.4.0",
+    "decap-cms-app": "^3.6.2",
     "hexo": "^7.3.0",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
