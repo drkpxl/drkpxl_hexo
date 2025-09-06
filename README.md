@@ -65,7 +65,6 @@ tags:                             # Array of tags for categorization
 categories:                       # Array of categories for organization  
   - projects
   - tutorials
-slug: "custom-url-slug"          # Custom URL (defaults to title)
 draft: false                     # Set to true for draft posts
 lastmod: 2024-MM-DD              # Last modification date
 preview: "/images/preview.webp"   # Preview image path or true/false
@@ -81,7 +80,6 @@ title: "Engineering a Clapper to Toggle My Living Room Lights On and Off"
 date: 2024-10-05
 lastmod: 2024-10-07
 description: "How I built a modern clapper using an ESP32 to toggle my living room lights, integrating clap detection with Home Assistant for a smart home upgrade."
-slug: "creating-a-clapper-to-toggle-my-living-room-lights-on-and-off"
 draft: false
 tags: []
 categories:

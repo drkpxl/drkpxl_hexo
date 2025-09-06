@@ -1,0 +1,180 @@
+{
+  "generated_at": "2025-09-06T17:35:00.000Z",
+  "summary": {
+    "total_unique_tags": 23,
+    "total_tag_usages": 30,
+    "total_unique_categories": 9,
+    "total_category_usages": 15,
+    "total_posts_analyzed": 18
+  },
+  "tags": [
+    {
+      "value": "3d printing",
+      "label": "3d printing (4)",
+      "count": 4
+    },
+    {
+      "value": "apps",
+      "label": "apps (2)",
+      "count": 2
+    },
+    {
+      "value": "bambu labs",
+      "label": "bambu labs (2)",
+      "count": 2
+    },
+    {
+      "value": "home assistant",
+      "label": "home assistant (2)",
+      "count": 2
+    },
+    {
+      "value": "yaml",
+      "label": "yaml (2)",
+      "count": 2
+    },
+    {
+      "value": "ai",
+      "label": "ai (1)",
+      "count": 1
+    },
+    {
+      "value": "clutter free",
+      "label": "clutter free (1)",
+      "count": 1
+    },
+    {
+      "value": "code",
+      "label": "code (1)",
+      "count": 1
+    },
+    {
+      "value": "coding",
+      "label": "coding (1)",
+      "count": 1
+    },
+    {
+      "value": "dashboard",
+      "label": "dashboard (1)",
+      "count": 1
+    },
+    {
+      "value": "design",
+      "label": "design (1)",
+      "count": 1
+    },
+    {
+      "value": "hacks",
+      "label": "hacks (1)",
+      "count": 1
+    },
+    {
+      "value": "home automation",
+      "label": "home automation (1)",
+      "count": 1
+    },
+    {
+      "value": "iot",
+      "label": "iot (1)",
+      "count": 1
+    },
+    {
+      "value": "nodejs",
+      "label": "nodejs (1)",
+      "count": 1
+    },
+    {
+      "value": "nodes",
+      "label": "nodes (1)",
+      "count": 1
+    },
+    {
+      "value": "notifications",
+      "label": "notifications (1)",
+      "count": 1
+    },
+    {
+      "value": "obsidian",
+      "label": "obsidian (1)",
+      "count": 1
+    },
+    {
+      "value": "projects",
+      "label": "projects (1)",
+      "count": 1
+    },
+    {
+      "value": "self hosting",
+      "label": "self hosting (1)",
+      "count": 1
+    },
+    {
+      "value": "test",
+      "label": "test (1)",
+      "count": 1
+    },
+    {
+      "value": "theme",
+      "label": "theme (1)",
+      "count": 1
+    },
+    {
+      "value": "theming",
+      "label": "theming (1)",
+      "count": 1
+    }
+  ],
+  "categories": [
+    {
+      "value": "code",
+      "label": "code (5)",
+      "count": 5
+    },
+    {
+      "value": "3d printing",
+      "label": "3d printing (2)",
+      "count": 2
+    },
+    {
+      "value": "home automation",
+      "label": "home automation (2)",
+      "count": 2
+    },
+    {
+      "value": "3d-printing",
+      "label": "3d-printing (1)",
+      "count": 1
+    },
+    {
+      "value": "design",
+      "label": "design (1)",
+      "count": 1
+    },
+    {
+      "value": "open source",
+      "label": "open source (1)",
+      "count": 1
+    },
+    {
+      "value": "self hosting",
+      "label": "self hosting (1)",
+      "count": 1
+    },
+    {
+      "value": "test",
+      "label": "test (1)",
+      "count": 1
+    },
+    {
+      "value": "wellness",
+      "label": "wellness (1)",
+      "count": 1
+    }
+  ],
+  "notes": [
+    "Data extracted from frontmatter YAML in .md files from source/_posts directory",
+    "No files found in source/_drafts directory",
+    "Note: There are duplicate categories for 3D printing ('3d printing' vs '3d-printing') that should be consolidated",
+    "Tags and categories are sorted by usage count (descending) then alphabetically"
+  ]
+}
