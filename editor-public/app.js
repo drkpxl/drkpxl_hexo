@@ -29,6 +29,19 @@ const MESSAGES = {
     }
 };
 
+// Utility functions for timestamp formatting
+function formatDateTimeLocal(date) {
+    const d = new Date(date);
+    const offset = d.getTimezoneOffset() * 60000;
+    const localDate = new Date(d.getTime() - offset);
+    return localDate.toISOString().slice(0, 16);
+}
+
+function formatDateOnly(date) {
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+}
+
 class HexoEditor {
     constructor() {
         this.currentPost = null;
@@ -303,6 +316,11 @@ class HexoEditor {
             const dateInput = document.getElementById('postDateInput').value;
             const lastmodInput = document.getElementById('postLastmod').value;
 
+            // Auto-update lastmod if field is empty or not manually changed
+            const shouldAutoUpdateLastmod = !lastmodInput || 
+                lastmodInput === formatDateOnly(this.currentPost.frontmatter.lastmod || new Date()) ||
+                lastmodInput === formatDateOnly(new Date());
+            
             const frontmatter = {
                 ...this.currentPost.frontmatter,
                 title,
@@ -312,7 +330,7 @@ class HexoEditor {
                 preview: preview || undefined,
                 draft: draft,
                 date: dateInput ? new Date(dateInput).toISOString() : (this.currentPost.frontmatter.date || new Date().toISOString()),
-                lastmod: lastmodInput ? new Date(lastmodInput).toISOString() : new Date().toISOString()
+                lastmod: shouldAutoUpdateLastmod ? formatDateOnly(new Date()) : lastmodInput
             };
 
             // Remove undefined values
@@ -488,6 +506,8 @@ class HexoEditor {
     }
 
     clearForm() {
+        const now = new Date();
+        
         document.getElementById('postTitle').value = '';
         document.getElementById('postTags').value = '';
         document.getElementById('postCategories').value = '';
@@ -495,8 +515,11 @@ class HexoEditor {
         document.getElementById('postPreview').value = '';
         document.getElementById('postDraft').checked = true;
         document.getElementById('postPublished').checked = false;
-        document.getElementById('postDateInput').value = '';
-        document.getElementById('postLastmod').value = '';
+        
+        // Auto-set current timestamp for new posts
+        document.getElementById('postDateInput').value = formatDateTimeLocal(now);
+        document.getElementById('postLastmod').value = formatDateOnly(now);
+        
         this.easyMDE.value('');
         
         document.getElementById('postStatus').textContent = 'New Post';

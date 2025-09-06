@@ -116,8 +116,14 @@ app.post('/api/posts/:filename', async (req, res) => {
     const { frontmatter, content } = req.body;
     const filePath = path.join('source/_posts', req.params.filename);
     
+    // Auto-update lastmod timestamp for existing posts (unless manually overridden)
+    const updatedFrontmatter = { ...frontmatter };
+    if (!updatedFrontmatter.lastmod || updatedFrontmatter.lastmod === '') {
+      updatedFrontmatter.lastmod = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    }
+    
     // Combine frontmatter and content
-    const fullContent = matter.stringify(content, frontmatter);
+    const fullContent = matter.stringify(content, updatedFrontmatter);
     
     await fs.writeFile(filePath, fullContent, 'utf8');
     res.json({ success: true });
@@ -146,9 +152,11 @@ app.post('/api/posts', async (req, res) => {
       // File doesn't exist, proceed
     }
     
+    const now = new Date();
     const frontmatter = {
       title: title,
-      date: new Date().toISOString(),
+      date: now.toISOString(),
+      lastmod: now.toISOString().split('T')[0], // YYYY-MM-DD format
       tags: [],
       categories: [],
       draft: true
