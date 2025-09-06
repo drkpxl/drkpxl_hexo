@@ -95,6 +95,10 @@ class HexoEditor {
         document.getElementById('saveBtn').addEventListener('click', () => this.savePost());
         document.getElementById('deleteBtn').addEventListener('click', () => this.deletePost());
         document.getElementById('previewBtn').addEventListener('click', () => this.previewPost());
+        document.getElementById('publishBtn').addEventListener('click', () => this.publishPost());
+        document.getElementById('closeCommitModal').addEventListener('click', () => this.closeCommitModal());
+        document.getElementById('cancelPublish').addEventListener('click', () => this.closeCommitModal());
+        document.getElementById('confirmPublish').addEventListener('click', () => this.confirmPublish());
         document.getElementById('postTitle').addEventListener('input', () => this.markAsChanged());
         document.getElementById('postTags').addEventListener('input', () => this.markAsChanged());
         document.getElementById('postCategories').addEventListener('input', () => this.markAsChanged());
@@ -227,6 +231,7 @@ class HexoEditor {
             this.updatePostStatus(postData.frontmatter);
             this.markAsClean();
             document.getElementById('deleteBtn').disabled = false;
+            document.getElementById('publishBtn').disabled = false;
             
         } catch (error) {
             console.error('Error loading post:', error);
@@ -553,6 +558,7 @@ class HexoEditor {
         this.currentPost = null;
         this.markAsClean();
         document.getElementById('deleteBtn').disabled = true;
+        document.getElementById('publishBtn').disabled = true;
     }
 
     async deletePost() {
@@ -692,6 +698,75 @@ class HexoEditor {
         }
         
         return cleanedLines.join('\n');
+    }
+
+    async publishPost() {
+        if (!this.currentPost) {
+            this.showNotification('No post selected', 'error');
+            return;
+        }
+
+        // Pre-populate the commit message with the post title
+        const postTitle = document.getElementById('postTitle').value || 'New Post';
+        document.getElementById('commitMessage').value = `Add new post: ${postTitle}`;
+        
+        // Show the commit modal
+        document.getElementById('commitModal').classList.remove('hidden');
+    }
+
+    closeCommitModal() {
+        document.getElementById('commitModal').classList.add('hidden');
+        document.getElementById('commitMessage').value = '';
+    }
+
+    async confirmPublish() {
+        const commitMessage = document.getElementById('commitMessage').value.trim();
+        
+        if (!commitMessage) {
+            this.showNotification('Please enter a commit message', 'error');
+            return;
+        }
+
+        try {
+            // First save the post if there are changes
+            if (document.getElementById('saveBtn').disabled === false) {
+                await this.savePost();
+            }
+
+            // Disable the button and show loading
+            const confirmBtn = document.getElementById('confirmPublish');
+            const originalText = confirmBtn.textContent;
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Publishing...';
+
+            // Call the publish API
+            const response = await fetch('/api/publish', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    filename: this.currentPost.filename,
+                    commitMessage: commitMessage 
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                this.showNotification('Post published successfully!', 'success');
+                this.closeCommitModal();
+            } else {
+                throw new Error(result.message || 'Failed to publish post');
+            }
+
+        } catch (error) {
+            console.error('Publish error:', error);
+            this.showNotification(`Failed to publish: ${error.message}`, 'error');
+        } finally {
+            // Re-enable the button
+            const confirmBtn = document.getElementById('confirmPublish');
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Commit & Push';
+        }
     }
 
     showNotification(message, type = 'info') {

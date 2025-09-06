@@ -503,6 +503,73 @@ app.post('/api/preview-url', async (req, res) => {
   }
 });
 
+// Publish post to git
+app.post('/api/publish', async (req, res) => {
+  try {
+    const { filename, commitMessage } = req.body;
+    
+    if (!filename || !commitMessage) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Filename and commit message are required' 
+      });
+    }
+    
+    const { exec } = require('child_process');
+    const util = require('util');
+    const execAsync = util.promisify(exec);
+    
+    // Construct the file path
+    const filePath = `source/_posts/${filename}`;
+    
+    try {
+      // Check if file exists
+      await fs.access(path.join(CONFIG.POSTS_DIR, filename));
+      
+      // Git operations
+      console.log(`Publishing ${filePath}...`);
+      
+      // Add the specific file
+      await execAsync(`git add "${filePath}"`);
+      console.log(`Added ${filePath} to git staging`);
+      
+      // Commit with the provided message
+      const commitCmd = `git commit -m "${commitMessage.replace(/"/g, '\\"')}"`;
+      await execAsync(commitCmd);
+      console.log(`Committed with message: ${commitMessage}`);
+      
+      // Push to remote
+      await execAsync('git push');
+      console.log('Pushed to remote repository');
+      
+      res.json({ 
+        success: true, 
+        message: 'Post published successfully!' 
+      });
+      
+    } catch (gitError) {
+      console.error('Git operation error:', gitError);
+      
+      // Handle case where there's nothing to commit
+      if (gitError.message.includes('nothing to commit')) {
+        return res.json({ 
+          success: false, 
+          message: 'No changes to commit. File may already be up to date.' 
+        });
+      }
+      
+      throw gitError;
+    }
+    
+  } catch (error) {
+    console.error('Publish error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: `Failed to publish: ${error.message}` 
+    });
+  }
+});
+
 // Serve the main editor page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'editor-public', 'index.html'));
