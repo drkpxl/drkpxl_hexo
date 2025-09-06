@@ -1,0 +1,66 @@
+# System files (not needed for code context)
+.DS_Store
+Thumbs.db
+.directory
+
+# Logs (not needed for context)
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Generated/cache files (not needed for context)
+db.json
+public/
+.deploy*/
+node_modules/
+.npm
+.yarn-integrity
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build artifacts (not needed for context)
+dist/
+build/
+
+# Environment files (contain secrets, not needed for context)
+.env
+.env.local
+.env.*.local
+
+# IDE files (not needed for context)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+
+# Large media files (not needed for code context)
+*.zip
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.mp4
+*.mov
+*.avi
+*.pdf
+
+# Binary profiles (not needed for code context)
+*.curaprofile.zip
+
+# Documentation files (large, not core to code)
+README.md
+codebase.md
+
+# FrontMatter CMS database
+.frontmatter/
+
+# Theme node_modules if present
+themes/*/node_modules/
+
+# Claude files
+.claude/
