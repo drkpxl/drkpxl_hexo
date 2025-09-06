@@ -95,7 +95,6 @@ class HexoEditor {
         document.getElementById('saveBtn').addEventListener('click', () => this.savePost());
         document.getElementById('deleteBtn').addEventListener('click', () => this.deletePost());
         document.getElementById('previewBtn').addEventListener('click', () => this.previewPost());
-        document.getElementById('closePreview').addEventListener('click', () => this.closePreview());
         document.getElementById('postTitle').addEventListener('input', () => this.markAsChanged());
         document.getElementById('postTags').addEventListener('input', () => this.markAsChanged());
         document.getElementById('postCategories').addEventListener('input', () => this.markAsChanged());
@@ -111,6 +110,8 @@ class HexoEditor {
         // Toggle checkboxes
         document.getElementById('toggleTagsList').addEventListener('click', () => this.toggleCheckboxList('tagsCheckboxes'));
         document.getElementById('toggleCategoriesList').addEventListener('click', () => this.toggleCheckboxList('categoriesCheckboxes'));
+
+        // Preview mode toggles
 
         // Save shortcut
         document.addEventListener('keydown', (e) => {
@@ -355,43 +356,66 @@ class HexoEditor {
         }
     }
 
+
     async previewPost() {
+        // Instead of modal preview, open the post directly in Hexo server
+        const frontmatter = this.getCurrentFrontmatter();
         const content = this.easyMDE.value();
         
         if (!content.trim()) {
-            document.getElementById('previewContent').innerHTML = '<p class="text-gray-500 italic">No content to preview. Start writing in the editor!</p>';
-            document.getElementById('previewModal').classList.remove('hidden');
+            alert('No content to preview. Start writing in the editor!');
             return;
         }
-        
-        // Simple client-side markdown rendering for now
-        let html = content
-            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-            .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-            .replace(/!\[([^\]]*)\]\(([^\)]+)\)/gim, '<img alt="$1" src="$2" class="max-w-full h-auto" />')
-            .replace(/\[([^\]]+)\]\(([^\)]+)\)/gim, '<a href="$2" class="text-blue-600 hover:text-blue-800">$1</a>')
-            .replace(/```([\s\S]*?)```/gim, '<pre class="bg-gray-100 p-4 rounded"><code>$1</code></pre>')
-            .replace(/`([^`]+)`/gim, '<code class="bg-gray-100 px-1 rounded">$1</code>')
-            .replace(/^\> (.*$)/gim, '<blockquote class="border-l-4 border-gray-300 pl-4 italic">$1</blockquote>')
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>');
-        
-        // Wrap in paragraphs
-        html = '<p>' + html + '</p>';
-        
-        // Fix empty paragraphs
-        html = html.replace(/<p><\/p>/g, '').replace(/<p><h([1-6])>/g, '<h$1>').replace(/<\/h([1-6])><\/p>/g, '</h$1>');
-        
-        document.getElementById('previewContent').innerHTML = `<div class="prose prose-lg max-w-none">${html}</div>`;
-        document.getElementById('previewModal').classList.remove('hidden');
+
+        try {
+            // Call the server to create a temporary post and get the URL
+            const response = await fetch('/api/preview-url', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ frontmatter, content })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Open the post in a new tab
+                window.open(result.url, '_blank');
+            } else {
+                alert('Failed to create preview: ' + (result.message || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Preview error:', error);
+            alert('Failed to create preview. Please try again.');
+        }
     }
 
-    closePreview() {
-        document.getElementById('previewModal').classList.add('hidden');
+
+    getCurrentFrontmatter() {
+        const tags = document.getElementById('postTags').value
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag.length > 0);
+        
+        const categories = document.getElementById('postCategories').value
+            .split(',')
+            .map(cat => cat.trim())
+            .filter(cat => cat.length > 0);
+        
+        return {
+            title: document.getElementById('postTitle').value.trim() || 'Preview Post',
+            tags: tags.length > 0 ? tags : [],
+            categories: categories.length > 0 ? categories : [],
+            description: document.getElementById('postDescription').value.trim() || undefined,
+            preview: document.getElementById('postPreview').value.trim() || undefined,
+            draft: !document.getElementById('postPublished').checked,
+            date: document.getElementById('postDateInput').value ? 
+                new Date(document.getElementById('postDateInput').value).toISOString() : 
+                new Date().toISOString(),
+            lastmod: document.getElementById('postLastmod').value || 
+                new Date().toISOString().split('T')[0]
+        };
     }
+
 
     setupDragAndDrop() {
         const codeMirror = this.easyMDE.codemirror.getWrapperElement();

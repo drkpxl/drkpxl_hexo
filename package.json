@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "dev": "hexo server --draft",
+    "dev": "node editor-server.js",
     "editor": "node editor-server.js",
     "lint": "eslint .",
     "format": "prettier --write ."
@@ -30,7 +30,8 @@
     "hexo-tag-youtube-responsive": "^0.4.2",
     "lodash": "^4.17.21",
     "markdown-it-imsize": "^2.0.1",
-    "multer": "^2.0.1"
+    "multer": "^2.0.1",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.13.0",

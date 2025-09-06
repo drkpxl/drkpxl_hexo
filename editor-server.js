@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const multer = require('multer');
 const matter = require('gray-matter');
+const fetch = require('node-fetch');
 
 const app = express();
 
@@ -10,10 +11,12 @@ const app = express();
 const CONFIG = {
     PORT: 3000,
     HOST: '0.0.0.0',
+    HEXO_PORT: 4001,
     POSTS_DIR: 'source/_posts',
     IMAGES_DIR: 'source/images/',
     MAX_FILE_SIZE: 5 * 1024 * 1024,
-    ALLOWED_IMAGE_TYPES: /\.(jpg|jpeg|png|gif|webp)$/i
+    ALLOWED_IMAGE_TYPES: /\.(jpg|jpeg|png|gif|webp)$/i,
+    TEMP_DIR: 'temp_posts'
 };
 
 // Utility functions
@@ -211,8 +214,9 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
   });
 });
 
-// Initialize Hexo for markdown rendering
+// Initialize Hexo for markdown rendering and server
 let hexoInstance = null;
+let hexoServerInstance = null;
 
 async function initHexo() {
   if (!hexoInstance) {
@@ -221,6 +225,52 @@ async function initHexo() {
     await hexoInstance.init();
   }
   return hexoInstance;
+}
+
+async function startHexoServer() {
+  try {
+    console.log('Starting embedded Hexo server...');
+    const hexo = await initHexo();
+    
+    // Check if port is already in use
+    const isPortInUse = await checkPort(CONFIG.HEXO_PORT);
+    if (isPortInUse) {
+      console.log(`Port ${CONFIG.HEXO_PORT} already in use, skipping Hexo server startup`);
+      return null;
+    }
+
+    // Start Hexo server
+    hexoServerInstance = await hexo.call('server', {
+      port: CONFIG.HEXO_PORT,
+      open: false,
+      draft: true
+    });
+    
+    console.log(`Hexo server started on http://localhost:${CONFIG.HEXO_PORT}`);
+    return hexoServerInstance;
+  } catch (error) {
+    console.error('Failed to start Hexo server:', error.message);
+    return null;
+  }
+}
+
+// Utility function to check if port is in use
+function checkPort(port) {
+  return new Promise((resolve) => {
+    const net = require('net');
+    const server = net.createServer();
+    
+    server.listen(port, () => {
+      server.once('close', () => {
+        resolve(false);
+      });
+      server.close();
+    });
+    
+    server.on('error', () => {
+      resolve(true);
+    });
+  });
 }
 
 // Preview markdown using Hexo renderer
@@ -260,6 +310,199 @@ app.post('/api/preview', async (req, res) => {
   }
 });
 
+// Preview with full blog styling
+app.post('/api/preview-styled', async (req, res) => {
+  try {
+    const { frontmatter, content } = req.body;
+    
+    if (!content.trim()) {
+      return res.json({ html: '<p class="text-gray-500 italic">Start typing to see preview...</p>' });
+    }
+
+    // Check if Hexo server is running
+    const isHexoRunning = await checkPort(CONFIG.HEXO_PORT);
+    if (!isHexoRunning) {
+      return res.status(503).json({ 
+        error: 'Hexo server not available. Falling back to basic preview.',
+        fallback: true 
+      });
+    }
+
+    try {
+      // Create temporary post file with a cleaner filename
+      const timestamp = Date.now();
+      const slugTitle = (frontmatter?.title || 'Preview Post')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      
+      const tempFilename = `${slugTitle}-preview-${timestamp}.md`;
+      const tempFilePath = path.join(CONFIG.POSTS_DIR, tempFilename);
+      
+      // Create frontmatter with defaults (must be draft: false to be accessible)
+      const baseFrontmatter = {
+        title: frontmatter?.title || 'Preview Post',
+        date: frontmatter?.date || new Date().toISOString(),
+        tags: frontmatter?.tags || [],
+        categories: frontmatter?.categories || [],
+        draft: false // Important: must be false to be accessible via URL
+      };
+      
+      // Merge with user frontmatter but ALWAYS override draft to false
+      const tempFrontmatter = {
+        ...baseFrontmatter,
+        ...frontmatter,
+        draft: false // Force false regardless of user setting for preview
+      };
+      
+      console.log('DEBUG: tempFrontmatter:', tempFrontmatter);
+      
+      // Write temporary post file
+      const fullContent = matter.stringify(content, tempFrontmatter);
+      await fs.writeFile(tempFilePath, fullContent, 'utf8');
+      
+      // Wait longer for Hexo to process the new file
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Generate URL based on the slug (since permalink is :title/)
+      const postUrl = `http://localhost:${CONFIG.HEXO_PORT}/${slugTitle}/`;
+      
+      const response = await fetch(postUrl, { timeout: 5000 });
+      
+      if (response.ok) {
+        const styledHtml = await response.text();
+        
+        // Extract the main content area (this will depend on your theme structure)
+        // For now, return the full page but we could extract just the article content
+        res.json({ 
+          html: styledHtml,
+          isStyled: true,
+          url: postUrl
+        });
+      } else {
+        throw new Error('Failed to fetch styled preview');
+      }
+      
+      // Clean up temporary file more aggressively
+      setTimeout(async () => {
+        try {
+          await fs.unlink(tempFilePath);
+          console.log(`Cleaned up temp file: ${tempFilename}`);
+        } catch (cleanupError) {
+          console.error('Failed to cleanup temp file:', cleanupError.message);
+        }
+      }, 2000);
+      
+    } catch (styledError) {
+      console.error('Styled preview error:', styledError.message);
+      
+      // Fallback to basic preview
+      const hexo = await initHexo();
+      const rendered = await hexo.render.render({ text: content, engine: 'md' });
+      
+      res.json({ 
+        html: `<div class="prose max-w-none">${rendered}</div>`,
+        isStyled: false,
+        fallback: true
+      });
+    }
+  } catch (error) {
+    console.error('Preview error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Preview post in new tab - simplified endpoint that just creates temp post and returns URL
+app.post('/api/preview-url', async (req, res) => {
+  try {
+    const { frontmatter, content } = req.body;
+    
+    if (!content.trim()) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'No content to preview. Start writing in the editor!' 
+      });
+    }
+
+    // Check if Hexo server is running
+    const isHexoRunning = await checkPort(CONFIG.HEXO_PORT);
+    if (!isHexoRunning) {
+      return res.status(503).json({ 
+        success: false,
+        message: 'Hexo server not available. Please ensure the server is running.'
+      });
+    }
+
+    try {
+      // Create temporary post file with a cleaner filename
+      const timestamp = Date.now();
+      const slugTitle = (frontmatter?.title || 'Preview Post')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      
+      const tempFilename = `${slugTitle}-preview-${timestamp}.md`;
+      const tempFilePath = path.join(CONFIG.POSTS_DIR, tempFilename);
+      
+      // Create frontmatter with defaults (must be draft: false to be accessible)
+      const baseFrontmatter = {
+        title: frontmatter?.title || 'Preview Post',
+        date: frontmatter?.date || new Date().toISOString(),
+        tags: frontmatter?.tags || [],
+        categories: frontmatter?.categories || [],
+        draft: false // Important: must be false to be accessible via URL
+      };
+      
+      // Merge with user frontmatter but ALWAYS override draft to false
+      const tempFrontmatter = {
+        ...baseFrontmatter,
+        ...frontmatter,
+        draft: false // Force false regardless of user setting for preview
+      };
+      
+      // Write temporary post file
+      const fullContent = matter.stringify(content, tempFrontmatter);
+      await fs.writeFile(tempFilePath, fullContent, 'utf8');
+      
+      // Wait longer for Hexo to process the new file
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Generate URL based on the filename (Hexo uses filename for permalink :title/)
+      // Remove the .md extension from filename to get the URL slug
+      const urlSlug = tempFilename.replace('.md', '');
+      const postUrl = `http://localhost:${CONFIG.HEXO_PORT}/${urlSlug}/`;
+      
+      // Clean up temporary file after delay
+      setTimeout(async () => {
+        try {
+          await fs.unlink(tempFilePath);
+          console.log(`Cleaned up temp file: ${tempFilename}`);
+        } catch (cleanupError) {
+          console.error('Failed to cleanup temp file:', cleanupError.message);
+        }
+      }, 30000); // 30 seconds delay to give time for user to view preview
+      
+      res.json({ 
+        success: true,
+        url: postUrl
+      });
+      
+    } catch (error) {
+      console.error('Preview URL generation error:', error.message);
+      res.status(500).json({ 
+        success: false,
+        message: 'Failed to create preview URL. Please try again.'
+      });
+    }
+  } catch (error) {
+    console.error('Preview URL error:', error.message);
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
+  }
+});
+
 // Serve the main editor page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'editor-public', 'index.html'));
@@ -275,7 +518,37 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error: error.message });
 });
 
-app.listen(CONFIG.PORT, CONFIG.HOST, () => {
-    console.log(`Hexo Web Editor running on http://localhost:${CONFIG.PORT}`);
-    console.log(`Also accessible via Tailscale at http://100.101.39.4:${CONFIG.PORT}`);
-});
+// Start the combined server
+async function startServer() {
+  try {
+    // Start Hexo server first
+    await startHexoServer();
+    
+    // Start the editor server
+    app.listen(CONFIG.PORT, CONFIG.HOST, () => {
+      console.log(`\n✅ Combined Server Started Successfully!`);
+      console.log(`📝 Editor: http://localhost:${CONFIG.PORT}`);
+      console.log(`📝 Editor (Tailscale): http://100.101.39.4:${CONFIG.PORT}`);
+      console.log(`🌐 Blog: http://localhost:${CONFIG.HEXO_PORT}`);
+      console.log(`🌐 Blog (Tailscale): http://100.101.39.4:${CONFIG.HEXO_PORT}`);
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGINT', async () => {
+      console.log('\n🔄 Shutting down servers...');
+      process.exit(0);
+    });
+
+    process.on('SIGTERM', async () => {
+      console.log('\n🔄 Shutting down servers...');
+      process.exit(0);
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
+  }
+}
+
+// Start the server
+startServer();
