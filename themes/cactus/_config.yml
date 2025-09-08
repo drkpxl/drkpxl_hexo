@@ -19,22 +19,18 @@ nav:
   articles: /archives/
   projects: http://github.com/drkpxl
 
-
 # Links to your social media accounts.
 # The 'icon' keys should correspond to Fontawesome icon names
 # (see https://fontawesome.com/icons?d=gallery&s=brands);
 # only 'mail' is an exception.
-# You can optionally add a 'label' key to set the title attribute on the link. 
+# You can optionally add a 'label' key to set the title attribute on the link.
 # 'icon' value will be used as title when 'label' is missing.
 social_links:
-  -
-    icon: github
+  - icon: github
     link: http://github.com/drkpxl
-  -
-    icon: x-twitter
-    link: https://x.com/stevendrkpxl
-  -
-    icon: bluesky
+  - icon: x-twitter
+    link: https://x.com/drkpxlmakes
+  - icon: bluesky
     link: https://bsky.app/profile/drkpxl.com
 
 # Customize the overview with displaying a tagcloud on the index page.
@@ -78,7 +74,6 @@ error_404:
   enabled: true
   title: "404 Page Not Found"
   description: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
-
 
 ##############################################################################
 # Look and Feel
@@ -132,8 +127,6 @@ colorscheme: paper
 # Maximal width of the page in rem units.
 page_width: 50
 
-
-
 ##############################################################################
 # Miscellaneous
 ##############################################################################
@@ -147,7 +140,6 @@ open_graph:
   fb_admins:
   twitter_id:
   google_plus:
-
 
 ##############################################################################
 # Plugins
@@ -178,17 +170,17 @@ google_analytics:
 # Fill in your Baidu Analytics tracking ID to enable Baidu Analytics.
 baidu_analytics:
   enabled: false
-  id: 
+  id:
 
 # Fill in your Cloudflare Analytics tracking ID to enable Cloudflare Analytics.
 cloudflare_analytics:
   enabled: false
-  id: 
+  id:
 
 # Fill in your Umami Analytics tracking ID to enable Umami Analytics.
 umami_analytics:
   enabled: false
-  id: 
+  id:
   host: https://analytics.domain.com
   script_name: umami.js
 
@@ -197,7 +189,7 @@ umami_analytics:
 # To generate hash: `$ echo -n "name@email.com" | md5`.
 gravatar:
   email: steven@drkpxl.com
-  hash: 
+  hash:
 
 # loads libraries and styles from CDN instead or relying on local files
 cdn:
@@ -205,4 +197,3 @@ cdn:
   jquery: https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js
   clipboard: https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js
   #font_awesome: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css
-
