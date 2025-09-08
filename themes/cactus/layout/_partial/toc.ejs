@@ -1,0 +1,6 @@
+<% let tocHTML = toc(page.content) %>
+<% if (tocHTML !== '') { %>
+  <div id="<%= id || 'toc' %>" style="<%= style || '' %>">
+    <%- tocHTML %>
+  </div>
+<% } %>

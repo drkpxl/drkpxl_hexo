@@ -19,9 +19,10 @@ $(document).ready(function() {
     });
   }
 
-  // Smooth scroll to top
-  $("#top-link").click(function(e) {
+  // Smooth scroll to top for all scroll-to-top elements
+  $(".scroll-to-top, #top-link").click(function(e) {
     e.preventDefault();
-    $("html, body").animate({ scrollTop: 0 }, "slow");
+    $("html, body").animate({ scrollTop: 0 }, "fast");
+    return false;
   });
 });

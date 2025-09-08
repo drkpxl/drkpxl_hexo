@@ -1,0 +1,30 @@
+<%
+  // Parameters:
+  // - posts: the posts collection to display
+  // - show_years: whether to show year headers (for archive)
+  // - field_sort: field to sort by ('date' or 'updated')
+  
+  var posts = posts || [];
+  var show_years = show_years || false;
+  var field_sort = field_sort || 'date';
+  
+  var year = 0;
+  var change = false;
+%>
+
+<ul class="post-list">
+  <% posts.sort(field_sort, 'desc').each(function(post) { %>
+    <% if (show_years) { %>
+      <% var itemYear = date(post[field_sort], 'YYYY') %>
+      <% change = year !== itemYear %>
+      <% year = change ? itemYear : year %>
+      <% if (change) { %>
+        <li class="post-year"><h2><%= year %></h2></li>
+      <% } %>
+    <% } %>
+    <li class="post-item">
+      <%- partial('post/date', { post: post, class_name: 'meta' }) %>
+      <span><%- partial('post/title', { post: post, index: true, class_name: '' }) %></span>
+    </li>
+  <% }); %>
+</ul>
